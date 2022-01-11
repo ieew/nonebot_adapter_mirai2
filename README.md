@@ -1,0 +1,1 @@
+# nonebot2_adapter_MiraiApiHttp2
