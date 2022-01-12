@@ -66,7 +66,7 @@ def process_nick(bot: "Bot", event: GroupMessage) -> GroupMessage:
         text = str(plain)
         nick_regex = '|'.join(filter(lambda x: x, bot.config.nickname))
         matched = re.search(rf"^({nick_regex})([\s,，]*|$)", text, re.IGNORECASE)
-        if matched is not None and matched != "":
+        if matched is not None:
             event.to_me = True
             nickname = matched.group(1)
             Log.info(f'User is calling me {nickname}')
