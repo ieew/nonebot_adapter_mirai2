@@ -10,14 +10,19 @@ from nonebot.drivers import (
     ForwardDriver,
     Request,
     ReverseDriver,
-    WebSocket,
+    WebSocket
 )
 from nonebot.adapters import Adapter as BaseAdapter
 
 from .bot import Bot
 from .event import Event
 from .config import Config
-from .utils import Log as log, MiraiDataclassEncoder, SyncIDStore, process_event
+from .utils import (
+    Log as log,
+    MiraiDataclassEncoder,
+    SyncIDStore,
+    process_event
+)
 
 RECONNECT_INTERVAL = 3.0
 
@@ -75,7 +80,11 @@ class Adapter(BaseAdapter):
         while True:
             try:
                 async with self.websocket(request) as ws:
-                    log.debug(f"WebSocket Connection to ws://{self.mirai_config.mirai_host}:{self.mirai_config.mirai_port}/all?qq={self_id} established")
+                    log.debug(
+                        "WebSocket Connection to "
+                        f"ws://{self.mirai_config.mirai_host}:{self.mirai_config.mirai_port}/all?"
+                        f"qq={self_id} established"
+                    )
                     data = await ws.receive()
                     json_data = json.loads(data)
                     if "data" in json_data and json_data["data"]["code"] > 0:
@@ -91,13 +100,16 @@ class Adapter(BaseAdapter):
                             if int(json_data.get('syncId') or '0') >= 0:
                                 SyncIDStore.add_response(json_data)
                                 continue
-                            asyncio.create_task(process_event(bot, event=Event.new({
-                                **json_data['data'],
-                                'self_id': self_id
-                            })))
+                            asyncio.create_task(process_event(
+                                bot,
+                                event=Event.new({
+                                    **json_data['data'],
+                                    'self_id': self_id
+                                })
+                            ))
                     except WebSocketClosed as e:
-                        log.warn(traceback.format_exc())
-                    except Exception as e:
+                        log.warn(e)
+                    except Exception as e: # noqa
                         log.warn(traceback.format_exc())
                     finally:
                         if bot:
@@ -145,6 +157,8 @@ class Adapter(BaseAdapter):
             sync_id, timeout=self.config.api_timeout)
 
         if ('data' not in result) or (result['data'].get('code') != 0):
-            raise ActionFailed(**(result.get('data') or result))
+            raise ActionFailed(
+                f"{self.get_name()} | {result.get('data') or result}"
+            )
 
         return result['data']
