@@ -14,11 +14,22 @@ class MessageSource(BaseModel):
     time: datetime
 
 
+class MessageQuote(BaseModel):
+    _type: str = Field(..., alias="type")
+    id: int
+    sender_id: int = Field(..., alias="senderId")
+    target_id: int = Field(..., alias="targetId")
+    group_id: int = Field(None, alias="groupId")
+    origin: MessageChain
+
+
 class MessageEvent(Event):
     """消息事件基类"""
     message_chain: MessageChain = Field(alias='messageChain')
     source: Optional[MessageSource] = None
     sender: Any
+    to_quote: bool = False
+    quote: Optional[MessageQuote] = None
 
     @overrides(Event)
     def get_message(self) -> MessageChain:

@@ -9,7 +9,7 @@ from nonebot.utils import DataclassEncoder, escape_tag, logger_wrapper
 
 from .exception import ApiNotAvailable
 
-from .event import Event, GroupMessage, MessageEvent, MessageSource
+from .event import Event, GroupMessage, MessageEvent, MessageSource, MessageQuote
 from .message import MessageSegment, MessageType
 
 if TYPE_CHECKING:
@@ -45,6 +45,14 @@ def process_source(bot: "Bot", event: MessageEvent) -> MessageEvent:
     source = event.message_chain.extract_first(MessageType.SOURCE)
     if source is not None:
         event.source = MessageSource.parse_obj(source.data)
+    return event
+
+
+def process_quote(bot: "Bot", event: MessageEvent) -> MessageEvent:
+    quote = event.message_chain.extract_first(MessageType.QUOTE)
+    if quote is not None:
+        event.to_quote = True
+        event.quote = MessageQuote.parse_obj(quote.data)
     return event
 
 
@@ -89,6 +97,7 @@ async def process_event(bot: "Bot", event: Event) -> None:
     if isinstance(event, MessageEvent):
         Log.debug(event.message_chain)
         event = process_source(bot, event)
+        event = process_quote(bot, event)
         if isinstance(event, GroupMessage):
             event = process_nick(bot, event)
             event = process_at(bot, event)
