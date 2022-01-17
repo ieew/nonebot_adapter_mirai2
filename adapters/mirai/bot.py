@@ -1,15 +1,12 @@
-import json
-from typing import Any, Dict, Union
+from typing import Any, Optional, Union
 from nonebot.typing import overrides
 
-from nonebot.message import handle_event
 from nonebot.adapters import Bot as BaseBot
 
-from .event.message import FriendMessage, GroupMessage, MessageEvent, TempMessage
+from .event.message import FriendMessage, GroupMessage, TempMessage
 
 from .event import Event
 from .message import MessageChain, MessageSegment
-from .utils import SyncIDStore, process_event, Log as log
 
 
 class Bot(BaseBot):
@@ -19,7 +16,8 @@ class Bot(BaseBot):
         self,
         event: Event,
         message: Union[str, MessageChain, MessageSegment],
-        at_sender: bool = False,
+        at_sender: Optional[bool] = False,
+        quote: Optional[int] = None,
         **kwargs,
     ) -> Any:
         """
@@ -37,15 +35,18 @@ class Bot(BaseBot):
             message = MessageChain(message)
         if isinstance(event, FriendMessage):
             return await self.send_friend_message(target=event.sender.id,
-                                                  message_chain=message)
+                                                  message_chain=message,
+                                                  quote=quote)
         elif isinstance(event, GroupMessage):
             if at_sender:
                 message = MessageSegment.at(event.sender.id) + message
             return await self.send_group_message(group=event.sender.group.id,
-                                                 message_chain=message)
+                                                 message_chain=message,
+                                                 quote=quote)
         elif isinstance(event, TempMessage):
             return await self.send_temp_message(qq=event.sender.id,
                                                 group=event.sender.group.id,
-                                                message_chain=message)
+                                                message_chain=message,
+                                                quote=quote)
         else:
             raise ValueError(f'Unsupported event type {event!r}.')

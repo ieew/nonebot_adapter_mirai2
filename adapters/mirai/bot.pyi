@@ -1,5 +1,4 @@
-import asyncio
-from typing import Any, Dict, Literal, Union, Optional, overload
+from typing import Literal, Union, Optional, overload
 
 from nonebot.adapters import Bot as BaseBot
 
@@ -21,20 +20,23 @@ class Bot(BaseBot):
 
     _type = 'mirai'
 
-    async def send(self,
-                   event: Event,
-                   message: Union[MessageChain, MessageSegment, str],
-                   at_sender: bool = False):
+    async def send(
+        self,
+        event: Event,
+        message: Union[MessageChain, MessageSegment, str],
+        at_sender: Optional[bool] = False,
+        quote: Optional[int] = None
+    ):
         """
         :说明:
 
-          根据 ``event`` 向触发事件的主体发送信息
+            根据 ``event`` 向触发事件的主体发送信息
 
         :参数:
 
-          * ``event: Event``: Event对象
-          * ``message: Union[MessageChain, MessageSegment, str]``: 要发送的消息
-          * ``at_sender: bool``: 是否 @ 事件主体
+            * ``event: Event``: Event对象
+            * ``message: Union[MessageChain, MessageSegment, str]``: 要发送的消息
+            * ``at_sender: bool``: 是否 @ 事件主体
         """
         ...
 
@@ -42,11 +44,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取插件信息
+            获取插件信息
 
         :参数:
 
-          * 无
+            * 无
         """
         ...
 
@@ -54,11 +56,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取消息 id 的内容
+            获取消息 id 的内容
 
         :参数:
 
-          * ``id: int`` 消息 id
+            * ``id: int`` 消息 id
         """
         ...
 
@@ -66,11 +68,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取好友列表
+            获取好友列表
 
         :参数:
 
-          * 无
+            * 无
         """
         ...
 
@@ -78,11 +80,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取群列表
+            获取群列表
 
         :参数:
 
-          * 无
+            * 无
         """
         ...
 
@@ -90,11 +92,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取群 target 的成员列表
+            获取群 target 的成员列表
 
         :参数:
 
-          * ``target: int`` 群 id
+            * ``target: int`` 群 id
         """
         ...
 
@@ -102,11 +104,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取Bot资料
+            获取Bot资料
 
         :参数:
 
-          * 无
+            * 无
         """
         ...
 
@@ -114,11 +116,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取好友 target 的资料
+            获取好友 target 的资料
 
         :参数:
 
-          * ``target: int`` 好友 id
+            * ``target: int`` 好友 id
         """
         ...
 
@@ -126,99 +128,99 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取群 target 中的成员 member_id 的资料
+            获取群 target 中的成员 member_id 的资料
 
         :参数:
 
-          * ``target: int`` 群 id
-          * ``member_id`` 成员 id
+            * ``target: int`` 群 id
+            * ``member_id`` 成员 id
         """
         ...
 
     async def send_friend_message(
-      self,
-      target: int,
-      message_chain: MessageChain,
-      quote: Optional[int]
+        self,
+        target: int,
+        message_chain: MessageChain,
+        quote: Optional[int]
     ):
         """
         :说明:
 
-          发送好友消息
+            发送好友消息
 
         :必填:
 
-          * ``target: int`` 好友 id
-          * ``message_chain: MessageChain`` 消息内容: (MessageChain("xxxx"))
+            * ``target: int`` 好友 id
+            * ``message_chain: MessageChain`` 消息内容: (MessageChain("xxxx"))
 
         :选填:
 
-          * ``quote: int`` 需引用消息的 id
+            * ``quote: int`` 需引用消息的 id
         """
         ...
 
     async def send_group_message(
-      self,
-      target: int,
-      message_chain: MessageChain,
-      quote: Optional[int]
+        self,
+        target: int,
+        message_chain: MessageChain,
+        quote: Optional[int]
     ):
         """
         :说明:
 
-          发送消息 message_chain 到 target 群
+            发送消息 message_chain 到 target 群
 
         :必填:
 
-          * ``target: int`` 群 id
-          * ``message_chain: MessageChain`` 消息内容: (MessageChain("xxxx"))
+            * ``target: int`` 群 id
+            * ``message_chain: MessageChain`` 消息内容: (MessageChain("xxxx"))
 
         :选填:
 
-          * ``quote: int`` 需引用消息的 id
+            * ``quote: int`` 需引用消息的 id
         """
         ...
 
     async def send_temp_message(
-      self,
-      qq: int,
-      group: int,
-      message_chain: MessageChain,
-      quote: Optional[int]
+        self,
+        qq: int,
+        group: int,
+        message_chain: MessageChain,
+        quote: Optional[int]
     ):
         """
         :说明:
 
-          发送消息 message_chain 到 target 群
+            发送消息 message_chain 到 target 群
 
         :必填:
 
-          * ``qq: int`` qq id
-          * ``group: int`` 群 id
-          * ``message_chain: MessageChain`` 消息内容: (MessageChain("xxxx"))
+            * ``qq: int`` qq id
+            * ``group: int`` 群 id
+            * ``message_chain: MessageChain`` 消息内容: (MessageChain("xxxx"))
 
         :选填:
 
-          * ``quote: int`` 需引用消息的 id
+            * ``quote: int`` 需引用消息的 id
         """
         ...
 
     async def send_nudge(
-      self,
-      target: int,
-      subject: int,
-      kind: str
+        self,
+        target: int,
+        subject: int,
+        kind: str
     ):
         """
         :说明:
 
-          发送头像戳一戳消息
+            发送头像戳一戳消息
 
         :参数:
 
-          * ``target: int`` 戳一戳目标
-          * ``subject: int`` 戳一戳接受主体(戳一戳信息会发送到该主体，为 群号/qq号)
-          * ``kind: str`` 上下文类型，可选值: (Friend, Group, Stranger)
+            * ``target: int`` 戳一戳目标
+            * ``subject: int`` 戳一戳接受主体(戳一戳信息会发送到该主体，为 群号/qq号)
+            * ``kind: str`` 上下文类型，可选值: (Friend, Group, Stranger)
         """
         ...
 
@@ -226,11 +228,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          撤回消息
+            撤回消息
 
         :参数:
 
-          * ``target: int`` 需要撤回的消息的 id
+            * ``target: int`` 需要撤回的消息的 id
         """
         ...
 
@@ -248,21 +250,21 @@ class Bot(BaseBot):
         """
         :说明:
 
-          查看文件列表
+            查看文件列表
 
         :必填:
 
-          * ``id: int`` 文件夹id，空串为根目录
+            * ``id: int`` 文件夹id，空串为根目录
 
         :可选:
 
-          * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
-          * ``target: int`` 群号或好友 qq 号
-          * ``group: int`` 群号
-          * ``qq: int`` 好友 qq 号
-          * ``with_download_info: bool`` 是否携带下载信息，额外请求，无必要不要携带
-          * ``offset: int`` 分页偏移
-          * ``size: int`` 分页大小
+            * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
+            * ``target: int`` 群号或好友 qq 号
+            * ``group: int`` 群号
+            * ``qq: int`` 好友 qq 号
+            * ``with_download_info: bool`` 是否携带下载信息，额外请求，无必要不要携带
+            * ``offset: int`` 分页偏移
+            * ``size: int`` 分页大小
         """
         ...
 
@@ -278,19 +280,19 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取文件信息
+            获取文件信息
 
         :必填:
 
-          * ``id: int`` 文件夹id，空串为根目录
+            * ``id: int`` 文件夹id，空串为根目录
 
         :可选:
 
-          * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
-          * ``target: int`` 群号或好友 qq 号
-          * ``group: int`` 群号
-          * ``qq: int`` 好友 qq 号
-          * ``with_download_info: bool`` 是否携带下载信息，额外请求，无必要不要携带
+            * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
+            * ``target: int`` 群号或好友 qq 号
+            * ``group: int`` 群号
+            * ``qq: int`` 好友 qq 号
+            * ``with_download_info: bool`` 是否携带下载信息，额外请求，无必要不要携带
         """
         ...
 
@@ -306,19 +308,19 @@ class Bot(BaseBot):
         """
         :说明:
 
-          创建文件夹
+            创建文件夹
 
         :必填:
 
-          * ``id: int`` 文件夹id，空串为根目录
-          * ``directory_name: str`` 是否携带下载信息，额外请求，无必要不要携带
+            * ``id: int`` 文件夹id，空串为根目录
+            * ``directory_name: str`` 是否携带下载信息，额外请求，无必要不要携带
 
         :可选:
 
-          * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
-          * ``target: int`` 群号或好友 qq 号
-          * ``group: int`` 群号
-          * ``qq: int`` 好友 qq 号
+            * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
+            * ``target: int`` 群号或好友 qq 号
+            * ``group: int`` 群号
+            * ``qq: int`` 好友 qq 号
         """
         ...
 
@@ -333,48 +335,48 @@ class Bot(BaseBot):
         """
         :说明:
 
-          删除文件
+            删除文件
 
         :必填:
 
-          * ``id: int`` 文件夹id，空串为根目录
+            * ``id: int`` 文件夹id，空串为根目录
 
         :可选:
 
-          * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
-          * ``target: int`` 群号或好友 qq 号
-          * ``group: int`` 群号
-          * ``qq: int`` 好友 qq 号
+            * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
+            * ``target: int`` 群号或好友 qq 号
+            * ``group: int`` 群号
+            * ``qq: int`` 好友 qq 号
         """
         ...
 
     async def file_move(
-      self,
-      id: str,
-      path: Optional[str],
-      target: Optional[int],
-      group: Optional[int],
-      qq: Optional[int],
-      move_to: Optional[str],
-      move_to_path: Optional[str]
+        self,
+        id: str,
+        path: Optional[str],
+        target: Optional[int],
+        group: Optional[int],
+        qq: Optional[int],
+        move_to: Optional[str],
+        move_to_path: Optional[str]
     ):
         """
         :说明:
 
-          移动文件
+            移动文件
 
         :必填:
 
-          * ``id: int`` 文件夹id，空串为根目录
+            * ``id: int`` 文件夹id，空串为根目录
 
         :可选:
 
-          * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
-          * ``target: int`` 群号或好友 qq 号
-          * ``group: int`` 群号
-          * ``qq: int`` 好友 qq 号
-          * ``move_to: str`` 移动目标文件夹 id
-          * ``move_to_path: str`` 移动目标文件夹路径,文件夹允许重名,不保证准确,准确定位使用 move_to 参数
+            * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
+            * ``target: int`` 群号或好友 qq 号
+            * ``group: int`` 群号
+            * ``qq: int`` 好友 qq 号
+            * ``move_to: str`` 移动目标文件夹 id
+            * ``move_to_path: str`` 移动目标文件夹路径,文件夹允许重名,不保证准确,准确定位使用 move_to 参数
         """
         ...
 
@@ -390,19 +392,19 @@ class Bot(BaseBot):
         """
         :说明:
 
-          重命名文件
+            重命名文件
 
         :必填:
 
-          * ``id: int`` 文件夹id，空串为根目录
+            * ``id: int`` 文件夹id，空串为根目录
 
         :可选:
 
-          * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
-          * ``target: int`` 群号或好友 qq 号
-          * ``group: int`` 群号
-          * ``qq: int`` 好友 qq 号
-          * ``rename_to: int`` 新文件名
+            * ``path: str`` 文件夹路径，文件夹允许重名，不保证准确，准确定位使用 id
+            * ``target: int`` 群号或好友 qq 号
+            * ``group: int`` 群号
+            * ``qq: int`` 好友 qq 号
+            * ``rename_to: int`` 新文件名
         """
         ...
 
@@ -410,30 +412,30 @@ class Bot(BaseBot):
         """
         :说明:
 
-          删除好友
+            删除好友
 
         :参数:
 
-          * ``target: int`` 好友 id
+            * ``target: int`` 好友 id
         """
         ...
 
     async def mute(
-      self,
-      target: int,
-      member_id: int,
-      time: int
+        self,
+        target: int,
+        member_id: int,
+        time: int
     ):
         """
         :说明:
 
-          禁言群 target 的 member_id 成员 time 秒
+            禁言群 target 的 member_id 成员 time 秒
 
         :参数:
 
-          * ``target: int`` 群 id
-          * ``member_id: int`` 成员 id
-          * ``time: int`` 时长(单位秒)
+            * ``target: int`` 群 id
+            * ``member_id: int`` 成员 id
+            * ``time: int`` 时长(单位秒)
         """
         ...
 
@@ -441,34 +443,34 @@ class Bot(BaseBot):
         """
         :说明:
 
-          解除群成员禁言
+            解除群成员禁言
 
         :参数:
 
-          * ``target: int`` 群 id
-          * ``member_id: int`` 成员 id
+            * ``target: int`` 群 id
+            * ``member_id: int`` 成员 id
         """
         ...
 
     async def kick(
-      self,
-      target: int,
-      member_id: int,
-      msg: Optional[str]
+        self,
+        target: int,
+        member_id: int,
+        msg: Optional[str]
     ):
         """
         :说明:
 
-          移除群成员
+            移除群成员
 
         :必填:
 
-          * ``target: int`` 群 id
-          * ``member_id: int`` 成员 id
+            * ``target: int`` 群 id
+            * ``member_id: int`` 成员 id
 
         :可选:
 
-          * ``msg: str`` 信息
+            * ``msg: str`` 信息
         """
         ...
 
@@ -476,11 +478,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          退出群聊
+            退出群聊
 
         :参数:
 
-          * ``target: int`` 群 id
+            * ``target: int`` 群 id
         """
         ...
 
@@ -488,11 +490,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          全体禁言
+            全体禁言
 
         :参数:
 
-          * ``target: int`` 群 id
+            * ``target: int`` 群 id
         """
         ...
 
@@ -500,11 +502,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          解除全体禁言
+            解除全体禁言
 
         :参数:
 
-          * ``target: int`` 群 id
+            * ``target: int`` 群 id
         """
         ...
 
@@ -512,11 +514,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          设置**群消息** id 为精华消息
+            设置**群消息** id 为精华消息
 
         :参数:
 
-          * ``target: int`` 消息 id
+            * ``target: int`` 消息 id
         """
         ...
 
@@ -529,12 +531,12 @@ class Bot(BaseBot):
         """
         :说明:
 
-          获取群设置(当 subcommand="get" 时)
+            获取群设置(当 subcommand="get" 时)
 
         :参数:
 
-          * ``subcommand: str`` 只可以使用 "get"
-          * ``target: int`` 群 id
+            * ``subcommand: str`` 只可以使用 "get"
+            * ``target: int`` 群 id
         """
         ...
 
@@ -548,22 +550,22 @@ class Bot(BaseBot):
         """
         :说明:
 
-          修改群设置(当 subcommand="update" 时)
+            修改群设置(当 subcommand="update" 时)
 
         :参数:
 
-          * ``subcommand: str`` 只可以使用 "update"
-          * ``target: int`` 群 id
-          * ``config: dict`` 群设置 dict
+            * ``subcommand: str`` 只可以使用 "update"
+            * ``target: int`` 群 id
+            * ``config: dict`` 群设置 dict
         :config 例子:
-          {
-            "name": "群名称",
-            "announcement": "群公告",
-            "confessTalk": True, # 是否开启坦白说
-            "allowMemberInvite": True # 是否允许群员邀请
-            "autoApprove": True # 是否开启自动审批入群
-            "anonymousChat": True # 是否允许匿名聊天
-          }
+            {
+                "name": "群名称",
+                "announcement": "群公告",
+                "confessTalk": True, # 是否开启坦白说
+                "allowMemberInvite": True # 是否允许群员邀请
+                "autoApprove": True # 是否开启自动审批入群
+                "anonymousChat": True # 是否允许匿名聊天
+            }
         """
         ...
 
@@ -571,11 +573,11 @@ class Bot(BaseBot):
         """
         :说明:
 
-          群员设置相关(暂不支持)
+            群员设置相关(暂不支持)
 
         :参数:
 
-          * ``target: int`` 群 id
+            * ``target: int`` 群 id
         """
         ...
 
@@ -588,12 +590,12 @@ class Bot(BaseBot):
         """
         :说明:
 
-          修改群员管理员权限
+            修改群员管理员权限
 
         :参数:
 
-          * ``target: int`` 群 id
-          * ``member_id: int`` 群成员 id
-          * ``assign: bool`` 是否设置为管理员
+            * ``target: int`` 群 id
+            * ``member_id: int`` 群成员 id
+            * ``assign: bool`` 是否设置为管理员
         """
         ...
