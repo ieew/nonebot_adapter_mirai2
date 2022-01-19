@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "nonebot2_adapter_mirai"
+version = "2.0.0b1"
+description = "兼容 MiraiApiHttp2.x → nonebot2.0.0b1"
+authors = ["ieew <i@ieew.cc>"]
+license = "GNU AFFERO GENERAL PUBLIC LICENSE"
+
+[tool.poetry.dependencies]
+python = "^3.8,^3.9"
+nonebot2 = "^2.0.0b1"
+
+[tool.poetry.dev-dependencies]
+nonebot2 = "^2.0.0b1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
