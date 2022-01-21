@@ -1,10 +1,10 @@
-from setuptools import setup
+from setuptools import setup, Extension
 
 
 setup(
     name='nonebot_adapter_mirai2',
     python_requires='>=3.8.0',
-    version='2.0.0b1',
+    version='0.0.1',
     description='nonebot2.0.0b1 的 mirai_api_http2 适配器',
     author='ieew',
     author_email='i@ieew.cc',
