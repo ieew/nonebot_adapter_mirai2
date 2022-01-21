@@ -34,13 +34,13 @@ class Adapter(BaseAdapter):
         super().__init__(driver, **kwargs)
         self.mirai_config: Config = Config(**self.config.dict())
         self.connections: Dict[str, WebSocket] = {}
-        self.tasks: List["asyncio.Task"] = []
+        self.tasks: List['asyncio.Task'] = []
         self.setup()
 
     @classmethod
     @overrides(BaseAdapter)
     def get_name(cls) -> str:
-        return "mirai V2"
+        return 'mirai V2'
 
     def setup(self) -> None:
         self.driver.on_startup(self.start_forward)
@@ -62,12 +62,12 @@ class Adapter(BaseAdapter):
 
     async def _forward_ws(self, self_id: int) -> None:
         headers = {
-            "verifyKey": self.mirai_config.verify_key,
-            "qq": self_id
+            'verifyKey': self.mirai_config.verify_key,
+            'qq': self_id
         }
         request = Request(
-            "GET",
-            URL("ws://{host}:{port}/all".format(
+            'GET',
+            URL('ws://{host}:{port}/all'.format(
                 host=self.mirai_config.mirai_host,
                 port=self.mirai_config.mirai_port
             )),
@@ -81,14 +81,14 @@ class Adapter(BaseAdapter):
             try:
                 async with self.websocket(request) as ws:
                     log.debug(
-                        "WebSocket Connection to "
-                        f"ws://{self.mirai_config.mirai_host}:{self.mirai_config.mirai_port}/all?"
-                        f"qq={self_id} established"
+                        'WebSocket Connection to '
+                        f'ws://{self.mirai_config.mirai_host}:{self.mirai_config.mirai_port}/all?'
+                        f'qq={self_id} established'
                     )
                     data = await ws.receive()
                     json_data = json.loads(data)
-                    if "data" in json_data and json_data["data"]["code"] > 0:
-                        log.warn(json_data["data"]["msg"])
+                    if 'data' in json_data and json_data['data']['code'] > 0:
+                        log.warn(f'{json_data["data"]["msg"]}: {self_id}')
                         return
                     self.connections[str(self_id)] = ws
 
@@ -126,7 +126,7 @@ class Adapter(BaseAdapter):
         self,
         bot: Bot,
         api: str,
-        subcommand: Optional[Literal["get", "update"]] = None,
+        subcommand: Optional[Literal['get', 'update']] = None,
         **data
     ) -> Any:
 
@@ -158,7 +158,7 @@ class Adapter(BaseAdapter):
 
         if ('data' not in result) or (result['data'].get('code') != 0):
             raise ActionFailed(
-                f"{self.get_name()} | {result.get('data') or result}"
+                f'{self.get_name()} | {result.get("data") or result}'
             )
 
         return result['data']
