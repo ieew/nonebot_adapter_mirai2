@@ -1,21 +1,20 @@
 [tool.poetry]
 name = "nonebot_adapter_mirai2"
-version = "0.0.1"
-description = "兼容 MiraiApiHttp2.x → nonebot2.0.0b1"
+version = "0.0.2"
+description = "兼容 MiraiApiHttp2.x 的 nonebot2_adapter"
 authors = ["ieew <i@ieew.cc>"]
-license = "GNU AFFERO GENERAL PUBLIC LICENSE"
-readme = "README.md"
+license = "AGPL-3.0"
+
 packages = [
   { include = "nonebot" }
 ]
-exclude = ["nonebot/__init__.py", "nonebot/adapters/__init__.py"]
 
 [tool.poetry.dependencies]
-python = "^3.8,^3.9"
-nonebot2 = "^2.0.0b1"
+python = ">=3.8"
+nonebot2 = ">=2.0.0b1"
 
 [tool.poetry.dev-dependencies]
-nonebot2 = "^2.0.0b1"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
