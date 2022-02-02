@@ -147,7 +147,8 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
     def image(cls,
               image_id: Optional[str] = None,
               url: Optional[str] = None,
-              path: Optional[str] = None):
+              path: Optional[str] = None,
+              base64: Optional[str] = None):
         """
         :说明:
 
