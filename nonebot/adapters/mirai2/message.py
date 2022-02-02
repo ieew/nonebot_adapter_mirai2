@@ -160,7 +160,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
           * ``url: Optional[str]``: 图片的URL，发送时可作网络图片的链接
           * ``path: Optional[str]``: 图片的路径，发送本地图片
         """
-        return cls(type=MessageType.IMAGE, imageId=image_id, url=url, path=path)
+        return cls(type=MessageType.IMAGE, imageId=image_id, url=url, path=path, base64=base64)
 
     @classmethod
     def flash_image(cls,
