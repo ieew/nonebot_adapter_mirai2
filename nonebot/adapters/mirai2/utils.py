@@ -70,7 +70,7 @@ def process_at(bot: "Bot", event: GroupMessage) -> GroupMessage:
 
 def process_nick(bot: "Bot", event: GroupMessage) -> GroupMessage:
     plain = event.message_chain.extract_first(MessageType.PLAIN)
-    if plain is not None:
+    if plain is not None and len(bot.config.nickname):
         text = str(plain)
         nick_regex = '|'.join(filter(lambda x: x, bot.config.nickname))
         matched = re.search(rf"^({nick_regex})([\s,，]*|$)", text, re.IGNORECASE)
