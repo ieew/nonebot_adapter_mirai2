@@ -86,6 +86,10 @@ class FriendMessage(MessageEvent):
 class TempMessage(MessageEvent):
     """临时会话消息事件"""
     sender: GroupChatInfo
+    
+    @overrides(MessageEvent)
+    def get_user_id(self) -> str:
+        return str(self.sender.id)
 
     @overrides(MessageEvent)
     def get_session_id(self) -> str:
