@@ -22,7 +22,12 @@ class MessageType(str, Enum):
     XML = 'Xml'
     JSON = 'Json'
     APP = 'App'
+    DICE = 'Dice'
     POKE = 'Poke'
+    MUSIC_SHARE = 'MusicShare'
+    FORWARD_MESSAGE = 'ForwardMessage'
+    FILE = 'File'
+    MIRAI_CODE = 'MiraiCode'
 
 
 class MessageSegment(BaseMessageSegment["MessageChain"]):
@@ -262,6 +267,83 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
         """
         return cls(type=MessageType.POKE, name=name)
 
+    @classmethod
+    def Dice(cls, value: int):
+        """
+        :说明:
+
+          掷骰子消息
+        
+        :参数:
+
+          * ``value: int``: 骰子的值
+
+        """
+        return cls(type=MessageType.DICE, value=value)
+
+    @classmethod
+    def music_share(cls, kind: str, title: str, summary: str, jump_url: str, picture_url: str, music_url: str, brief: str):
+        """
+        :说明:
+          音乐卡片消息
+
+        :参数:
+
+          * ``kind: str``: 卡片类型
+          * ``title: str``: 标题
+          * ``summary: str``: 摘要
+          * ``jump_url: str``: 跳转链接
+          * ``picture_url: str``: 图片链接
+          * ``music_url: str``: 音乐链接
+          * ``brief: str``: 简介
+        """
+        return cls(type=MessageType.MUSIC_SHARE, kind=kind, title=title, summary=summary, jumpUrl=jump_url, pictureUrl=picture_url, musicUrl=music_url, brief=brief)
+
+    @classmethod
+    def forward_message(cls, node_list: str, senderld: int, time: int, sender_name: str, message_chain: "MessageChain", messageid: int):
+        """
+        :说明:
+
+          转发消息
+
+        :参数:
+
+          * ``node_list: str``: 节点列表
+          * ``senderld: int``: 发送者的ld
+          * ``time: int``: 时间戳
+          * ``sender_name: str``: 发送者的名字
+          * ``message_chain: MessageChain``: 消息链
+          * ``messageid: int``: 消息id
+        """
+        return cls(type=MessageType.FORWARD_MESSAGE, nodeList=node_list, senderLd=senderld, time=time, senderName=sender_name, messageChain=message_chain, messageId=messageid)
+
+    @classmethod
+    def file(cls, id: str, name: str, size: int):
+        """
+        :说明:
+
+          文件消息
+
+        :参数:
+
+          * ``id: str``: 文件的id
+          * ``name: str``: 文件的名字
+          * ``size: int``: 文件的大小
+        """
+        return cls(type=MessageType.FILE, id=id, name=name, size=size)
+
+    @classmethod
+    def mirai_code(cls, code: str):
+        """
+        :说明:
+
+          Mirai-Code消息
+
+        :参数:
+
+          * ``code: str``: Mirai-Code
+        """
+        return cls(type=MessageType.MIRAI_CODE, code=code)
 
 class MessageChain(BaseMessage[MessageSegment]):
     """
