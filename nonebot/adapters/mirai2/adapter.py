@@ -91,14 +91,12 @@ class Adapter(BaseAdapter):
                         log.warn(f'{json_data["data"]["msg"]}: {self_id}')
                         return
                     self.connections[str(self_id)] = ws
-                    
-                    bot = Bot(self, str(self_id))
-                    self.bot_connect(bot)
 
                     try:
                         while True:
                             data = await ws.receive()
                             json_data = json.loads(data)
+                            bot = Bot(self, str(self_id))
                             if int(json_data.get('syncId') or '0') >= 0:
                                 SyncIDStore.add_response(json_data)
                                 continue
