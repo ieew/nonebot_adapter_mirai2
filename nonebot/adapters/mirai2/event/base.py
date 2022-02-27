@@ -46,6 +46,17 @@ class PrivateChatInfo(BaseModel):
     remark: str
 
 
+class StrangerChatInfo(BaseModel):
+    id: int
+    nickname: str
+    remark: str
+
+
+class OtherChatInfo(BaseModel):
+    id: int
+    platform: str
+
+
 class Event(BaseEvent):
     """
     mirai-api-http 协议事件，字段与 mirai-api-http 一致。各事件字段参考 `mirai-api-http 事件类型`_
