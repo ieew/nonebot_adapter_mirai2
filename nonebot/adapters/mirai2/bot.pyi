@@ -599,3 +599,70 @@ class Bot(BaseBot):
             * ``assign: bool`` 是否设置为管理员
         """
         ...
+
+    async def anno_list(
+        self,
+        id: int,
+        offset: Optional[int],
+        size: Optional[int]
+    ):
+        """
+        :说明:
+
+            获取群公告
+
+        :参数:
+
+            * ``id: int`` 群 id
+            * ``offset: int`` 分页参数
+            * ``size: int`` 分页参数 默认10
+        """
+        ...
+
+    async def anno_publish(
+        self,
+        target: int,
+        content: str,
+        send_to_new_member: Optional[bool],
+        pinned: Optional[bool],
+        showEditCard: Optional[bool],
+        showPopup: Optional[bool],
+        requireConfirmation: Optional[bool],
+        imageUrl: Optional[str],
+        imagePath: Optional[str],
+        imageBase64: Optional[str]
+    ):
+        """
+        :说明:
+
+            发送群公告
+
+        :参数:
+
+            * ``target: int`` 群号
+            * ``content: str`` 公告内容
+            * ``send_to_new_member`` 是否发送给新成员
+            * ``pinned: bool`` 是否置顶
+            * ``showEditCard: bool`` 是否显示群成员修改群名片的引导
+            * ``showPopup: bool`` 是否自动弹出
+            * ``requireConfirmation: bool`` 是否需要群成员确认
+            * ``imageUrl: str`` 公告图片 url
+            * ``imagePath: str`` 公告图片本地路径
+            * ``imageBase64: str`` 公告图片 base64 编码
+        """
+        ...
+
+    async def anno_delete(
+        self, id: int, fid: str
+    ):
+        """
+        :说明:
+
+            删除群公告
+
+        :参数:
+
+            * ``id: int`` 群号
+            * ``fid: str`` 群公告唯一 id
+        """
+        ...

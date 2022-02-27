@@ -91,7 +91,7 @@ class Adapter(BaseAdapter):
                         log.warn(f'{json_data["data"]["msg"]}: {self_id}')
                         return
                     self.connections[str(self_id)] = ws
-                    
+
                     bot = Bot(self, str(self_id))
                     self.bot_connect(bot)
 

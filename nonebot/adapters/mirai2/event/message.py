@@ -6,7 +6,13 @@ from pydantic import BaseModel, Field
 from nonebot.typing import overrides
 
 from ..message import MessageChain
-from .base import Event, GroupChatInfo, PrivateChatInfo
+from .base import (
+    Event,
+    GroupChatInfo,
+    OtherChatInfo,
+    PrivateChatInfo,
+    StrangerChatInfo
+)
 
 
 class MessageSource(BaseModel):
@@ -86,7 +92,7 @@ class FriendMessage(MessageEvent):
 class TempMessage(MessageEvent):
     """临时会话消息事件"""
     sender: GroupChatInfo
-    
+
     @overrides(MessageEvent)
     def get_user_id(self) -> str:
         return str(self.sender.id)
@@ -98,3 +104,29 @@ class TempMessage(MessageEvent):
     @overrides(MessageEvent)
     def is_tome(self) -> bool:
         return True
+
+
+class StrangerMessage(MessageEvent):
+    """陌生人消息事件"""
+    sender: StrangerChatInfo
+
+    @overrides(MessageEvent)
+    def get_user_id(self) -> str:
+        return str(self.sender.id)
+
+    @overrides(MessageEvent)
+    def get_session_id(self) -> str:
+        return 'stranger_' + self.get_user_id()
+
+
+class OtherClientMessage(MessageEvent):
+    """其他客户端消息事件"""
+    sender: OtherChatInfo
+
+    @overrides(MessageEvent)
+    def get_user_id(self) -> str:
+        return str(self.sender.id)
+
+    @overrides(MessageEvent)
+    def get_session_id(self) -> str:
+        return 'other_' + self.get_user_id()

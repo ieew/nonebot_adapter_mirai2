@@ -24,6 +24,7 @@ class MessageType(str, Enum):
     APP = 'App'
     DICE = 'Dice'
     POKE = 'Poke'
+    MARKET_FACE = 'MarketFace'
     MUSIC_SHARE = 'MusicShare'
     FORWARD_MESSAGE = 'ForwardMessage'
     FILE = 'File'
@@ -247,6 +248,20 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
         return cls(type=MessageType.APP, content=content)
 
     @classmethod
+    def Dice(cls, value: int):
+        """
+        :说明:
+
+          掷骰子消息
+        
+        :参数:
+
+          * ``value: int``: 骰子的值
+
+        """
+        return cls(type=MessageType.DICE, value=value)
+
+    @classmethod
     def poke(cls, name: str):
         """
         :说明:
@@ -267,24 +282,28 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
         """
         return cls(type=MessageType.POKE, name=name)
 
+
     @classmethod
-    def Dice(cls, value: int):
+    def market_face(
+      cls, id: int, name: str
+    ):
         """
         :说明:
 
-          掷骰子消息
-        
+          商城表情
+
         :参数:
 
-          * ``value: int``: 骰子的值
-
+          * ``id: int`` 商城表情唯一标识
+          * ``name: str`` 表情显示名称
         """
-        return cls(type=MessageType.DICE, value=value)
+        return cls(type=MessageType.MARKET_FACE, id=id, name=name)
 
     @classmethod
     def music_share(cls, kind: str, title: str, summary: str, jump_url: str, picture_url: str, music_url: str, brief: str):
         """
         :说明:
+
           音乐卡片消息
 
         :参数:
@@ -344,6 +363,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
           * ``code: str``: Mirai-Code
         """
         return cls(type=MessageType.MIRAI_CODE, code=code)
+
 
 class MessageChain(BaseMessage[MessageSegment]):
     """
