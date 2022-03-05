@@ -203,7 +203,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
           * ``url: Optional[str]``: 语音的URL，发送时可作网络语音的链接
           * ``path: Optional[str]``: 语音的路径，发送本地语音
         """
-        return cls(type=MessageType.FLASH_IMAGE,
+        return cls(type=MessageType.VOICE,
                    imageId=voice_id,
                    url=url,
                    path=path)
@@ -253,7 +253,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
         :说明:
 
           掷骰子消息
-        
+
         :参数:
 
           * ``value: int``: 骰子的值

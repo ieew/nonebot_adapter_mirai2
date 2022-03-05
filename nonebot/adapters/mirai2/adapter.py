@@ -10,7 +10,7 @@ from nonebot.drivers import (
     ForwardDriver,
     Request,
     ReverseDriver,
-    WebSocket
+    WebSocket,
 )
 from nonebot.adapters import Adapter as BaseAdapter
 
@@ -43,85 +43,75 @@ class Adapter(BaseAdapter):
         return 'mirai V2'
 
     def setup(self) -> None:
-        self.driver.on_startup(self.start_forward)
-        self.driver.on_shutdown(self.stop_forward)
 
-    async def start_forward(self) -> None:
+        if isinstance(self.driver, ForwardDriver):
+            self.driver.on_startup(self.start_ws_client)
+            self.driver.on_shutdown(self.stop_ws_client)
+        else:
+            log.error(f"{self.get_name()} 请添加 websockets 驱动以使用本 adapter")
+
+    async def start_ws_client(self):
         for qq in self.mirai_config.mirai_qq:
-            try:
-                self.tasks.append(asyncio.create_task(self._forward_ws(qq)))
-            except Exception as e:
-                log.warn(e)
+            self.tasks.append(asyncio.create_task(self._client(qq)))
+        else:
+            await asyncio.wait(self.tasks)
 
-    async def stop_forward(self) -> None:
-        for task in self.tasks:
-            if not task.done():
-                task.cancel()
+    async def stop_ws_client(self):
+        pass
 
-        await asyncio.gather(*self.tasks, return_exceptions=True)
-
-    async def _forward_ws(self, self_id: int) -> None:
-        headers = {
-            'verifyKey': self.mirai_config.verify_key,
-            'qq': self_id
-        }
+    async def _client(self, self_qq: int):
         request = Request(
-            'GET',
-            URL('ws://{host}:{port}/all'.format(
+            "GET",
+            URL("ws://{host}:{port}/all".format(
                 host=self.mirai_config.mirai_host,
                 port=self.mirai_config.mirai_port
             )),
-            headers=headers,
-            timeout=30.0
+            headers={
+                "verifyKey": self.mirai_config.verify_key,
+                "qq": self_qq
+            },
+            timeout=3
         )
-
-        bot: Optional[Bot] = None
 
         while True:
             try:
                 async with self.websocket(request) as ws:
                     log.debug(
-                        'WebSocket Connection to '
-                        f'ws://{self.mirai_config.mirai_host}:{self.mirai_config.mirai_port}/all?'
-                        f'qq={self_id} established'
+                        "WebSocket Connection to "
+                        f'ws://{self.mirai_config.mirai_host}:{self.mirai_config.mirai_port}/all?'  # noqa
+                        f'qq={self_qq} established'
                     )
                     data = await ws.receive()
                     json_data = json.loads(data)
-                    if 'data' in json_data and json_data['data']['code'] > 0:
-                        log.warn(f'{json_data["data"]["msg"]}: {self_id}')
+                    if "data" in json_data and json_data.get("data")["code"] > 0:
+                        log.warn(f'{json_data["data"]["msg"]}: {self_qq}')
                         return
-                    self.connections[str(self_id)] = ws
 
-                    bot = Bot(self, str(self_id))
-                    self.bot_connect(bot)
+                    await self.ws_event(ws, self_qq, json_data)
 
-                    try:
-                        while True:
-                            data = await ws.receive()
-                            json_data = json.loads(data)
-                            if int(json_data.get('syncId') or '0') >= 0:
-                                SyncIDStore.add_response(json_data)
-                                continue
-                            asyncio.create_task(process_event(
-                                bot,
-                                event=Event.new({
-                                    **json_data['data'],
-                                    'self_id': self_id
-                                })
-                            ))
-                    except WebSocketClosed as e:
-                        log.warn(e)
-                    except Exception as e: # noqa
-                        log.warn(traceback.format_exc())
-                    finally:
-                        if bot:
-                            self.connections.pop(bot.self_id, None)
-                            self.bot_disconnect(bot)
-                            bot = None
-            except Exception as e:
-                log.warn(e)
+            except ConnectionRefusedError as e:
+                log.warn(f"connection error ({self_qq}):{e} ")
+                break
+            await asyncio.sleep(3)
 
-            await asyncio.sleep(RECONNECT_INTERVAL)
+    async def ws_event(self, ws: WebSocket, self_qq: int, data: dict):
+        bot = Bot(self, str(self_qq))
+        self.bot_connect(bot)
+
+        while True:
+            data = await ws.receive()
+            json_data = json.loads(data)
+            print(data)
+            if int(json_data.get("syncId") or "0") >= 0:
+                SyncIDStore.add_response(json_data)
+                continue
+            asyncio.create_task(process_event(
+                bot,
+                event=Event.new({
+                    **json_data["data"],
+                    "self_id": self_qq
+                })
+            ))
 
     @overrides(BaseAdapter)
     async def _call_api(

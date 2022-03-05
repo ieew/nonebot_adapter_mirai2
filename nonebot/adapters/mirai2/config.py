@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import Field, Extra, BaseModel
 
@@ -16,7 +16,7 @@ class Config(BaseModel):
     """
 
     verify_key: str = Field(
-        None, alias="mirai_verify_key"
+        ..., alias="mirai_verify_key"
     )
     mirai_host: str
     mirai_port: str
