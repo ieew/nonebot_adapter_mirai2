@@ -53,11 +53,11 @@ class Adapter(BaseAdapter):
     async def start_ws_client(self):
         for qq in self.mirai_config.mirai_qq:
             self.tasks.append(asyncio.create_task(self._client(qq)))
-        else:
-            await asyncio.wait(self.tasks)
 
     async def stop_ws_client(self):
-        pass
+        for task in self.tasks:
+            if not task.done():
+                task.cancel()
 
     async def _client(self, self_qq: int):
         request = Request(
