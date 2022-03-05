@@ -1,5 +1,5 @@
 from .bot import Bot
-from .event import Event, MessageEvent, GroupMessage, FriendMessage, TempMessage
+from .event import Event, MessageEvent, GroupMessage, FriendMessage, TempMessage # noqa
 from .adapter import Adapter
 from .message import MessageChain, MessageSegment
 from .permission import (

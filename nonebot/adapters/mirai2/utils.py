@@ -79,7 +79,7 @@ def process_nick(bot: "Bot", event: GroupMessage) -> GroupMessage:
             nickname = matched.group(1)
             Log.info(f'User is calling me {nickname}')
             plain.data['text'] = text[matched.end():]
-    event.message_chain.insert(0, plain)
+        event.message_chain.insert(0, plain)
     return event
 
 
