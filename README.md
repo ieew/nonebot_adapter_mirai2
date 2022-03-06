@@ -4,14 +4,5 @@
 
 **依赖于 nonebot2.0.0b1**
 
-## nonebot .env 文件要求
-
-```
-driver=nonebot.drivers.fastapi+nonebot.drivers.httpx+nonebot.drivers.websockets
-MIRAI_HOST=127.0.0.1  # mah2 的 host
-MIRAI_PORT=5700  # mah2 的 port
-MIRAI_QQ=[3181952556]  # mirai 上已登录的 qq 号
-```
-
-## 使用
+## 使用方法
 请看本仓库的 [wiki](https://github.com/ieew/nonebot_adapter_mirai2/wiki)
