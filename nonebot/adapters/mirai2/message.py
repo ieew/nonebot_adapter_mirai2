@@ -253,7 +253,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
         :说明:
 
           掷骰子消息
-
+        
         :参数:
 
           * ``value: int``: 骰子的值

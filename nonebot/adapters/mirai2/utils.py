@@ -70,15 +70,16 @@ def process_at(bot: "Bot", event: GroupMessage) -> GroupMessage:
 
 def process_nick(bot: "Bot", event: GroupMessage) -> GroupMessage:
     plain = event.message_chain.extract_first(MessageType.PLAIN)
-    if plain is not None and len(bot.config.nickname):
-        text = str(plain)
-        nick_regex = '|'.join(filter(lambda x: x, bot.config.nickname))
-        matched = re.search(rf"^({nick_regex})([\s,，]*|$)", text, re.IGNORECASE)
-        if matched is not None:
-            event.to_me = True
-            nickname = matched.group(1)
-            Log.info(f'User is calling me {nickname}')
-            plain.data['text'] = text[matched.end():]
+    if plain is not None:
+        if len(bot.config.nickname):
+            text = str(plain)
+            nick_regex = '|'.join(filter(lambda x: x, bot.config.nickname))
+            matched = re.search(rf"^({nick_regex})([\s,，]*|$)", text, re.IGNORECASE)
+            if matched is not None:
+                event.to_me = True
+                nickname = matched.group(1)
+                Log.info(f'User is calling me {nickname}')
+                plain.data['text'] = text[matched.end():]
         event.message_chain.insert(0, plain)
     return event
 
