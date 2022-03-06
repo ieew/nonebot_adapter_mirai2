@@ -53,11 +53,11 @@ class Adapter(BaseAdapter):
     async def start_ws_client(self):
         for qq in self.mirai_config.mirai_qq:
             self.tasks.append(asyncio.create_task(self._client(qq)))
+        else:
+            await asyncio.wait(self.tasks)
 
     async def stop_ws_client(self):
-        for task in self.tasks:
-            if not task.done():
-                task.cancel()
+        pass
 
     async def _client(self, self_qq: int):
         request = Request(
@@ -92,16 +92,18 @@ class Adapter(BaseAdapter):
             except ConnectionRefusedError as e:
                 log.warn(f"connection error ({self_qq}):{e} ")
                 break
+            except:
+                log.error(traceback.format_exc())
             await asyncio.sleep(3)
 
     async def ws_event(self, ws: WebSocket, self_qq: int, data: dict):
         bot = Bot(self, str(self_qq))
         self.bot_connect(bot)
+        self.connections[str(self_qq)] = ws
 
         while True:
             data = await ws.receive()
             json_data = json.loads(data)
-            print(data)
             if int(json_data.get("syncId") or "0") >= 0:
                 SyncIDStore.add_response(json_data)
                 continue
