@@ -1,15 +1,13 @@
 import asyncio
 import json
-import traceback
 from typing import Any, Dict, List, Literal, Optional, cast
 from nonebot.typing import overrides
-from nonebot.exception import ActionFailed, WebSocketClosed
+from nonebot.exception import ActionFailed
 from nonebot.drivers import (
     URL,
     Driver,
     ForwardDriver,
     Request,
-    ReverseDriver,
     WebSocket,
 )
 from nonebot.adapters import Adapter as BaseAdapter
@@ -53,11 +51,12 @@ class Adapter(BaseAdapter):
     async def start_ws_client(self):
         for qq in self.mirai_config.mirai_qq:
             self.tasks.append(asyncio.create_task(self._client(qq)))
-        else:
-            await asyncio.wait(self.tasks)
 
     async def stop_ws_client(self):
-        pass
+        for i in self.tasks:
+            i.cancel()
+        for qq, ws in self.connections.items():
+            await ws.close()
 
     async def _client(self, self_qq: int):
         request = Request(
@@ -92,8 +91,6 @@ class Adapter(BaseAdapter):
             except ConnectionRefusedError as e:
                 log.warn(f"connection error ({self_qq}):{e} ")
                 break
-            except:
-                log.error(traceback.format_exc())
             await asyncio.sleep(3)
 
     async def ws_event(self, ws: WebSocket, self_qq: int, data: dict):
