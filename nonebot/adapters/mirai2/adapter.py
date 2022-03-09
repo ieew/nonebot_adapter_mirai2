@@ -1,6 +1,5 @@
 import asyncio
 import json
-import traceback
 from typing import Any, Dict, List, Literal, Optional, cast
 from nonebot.typing import overrides
 from nonebot.exception import ActionFailed
