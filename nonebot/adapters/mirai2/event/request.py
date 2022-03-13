@@ -1,3 +1,4 @@
+from ast import operator
 from typing import TYPE_CHECKING
 
 from pydantic import Field
@@ -31,14 +32,14 @@ class NewFriendRequestEvent(RequestEvent):
 
           * ``bot: Bot``: 当前的 ``Bot`` 对象
         """
-        return await bot.api.post('/resp/newFriendRequestEvent',
-                                  params={
-                                      'eventId': self.event_id,
-                                      'groupId': self.group_id,
-                                      'fromId': self.from_id,
-                                      'operate': 0,
-                                      'message': ''
-                                  })
+        return await bot.resp_newFriendRequestEvent(
+                              event_id=self.event_id,
+                              group_id=self.group_id,
+                              from_id=self.from_id,
+                              operate=0,
+                              message=''
+                          )
+
 
     async def reject(self,
                      bot: "Bot",
@@ -60,14 +61,13 @@ class NewFriendRequestEvent(RequestEvent):
           * ``message: str``: 回复的信息
         """
         assert operate > 0
-        return await bot.api.post('/resp/newFriendRequestEvent',
-                                  params={
-                                      'eventId': self.event_id,
-                                      'groupId': self.group_id,
-                                      'fromId': self.from_id,
-                                      'operate': operate,
-                                      'message': message
-                                  })
+        return await bot.resp_newFriendRequestEvent(
+                              event_id=self.event_id,
+                              group_id=self.group_id,
+                              from_id=self.from_id,
+                              operate=operate,
+                              message=message
+                          )
 
 
 class MemberJoinRequestEvent(RequestEvent):
@@ -86,14 +86,14 @@ class MemberJoinRequestEvent(RequestEvent):
 
           * ``bot: Bot``: 当前的 ``Bot`` 对象
         """
-        return await bot.api.post('/resp/memberJoinRequestEvent',
-                                  params={
-                                      'eventId': self.event_id,
-                                      'groupId': self.group_id,
-                                      'fromId': self.from_id,
-                                      'operate': 0,
-                                      'message': ''
-                                  })
+        return await bot.resp_memberJoinRequestEvent(
+                              event_id=self.event_id,
+                              group_id=self.group_id,
+                              from_id=self.from_id,
+                              operate=0,
+                              message=''
+                          )
+   
 
     async def reject(self,
                      bot: "Bot",
@@ -117,14 +117,13 @@ class MemberJoinRequestEvent(RequestEvent):
           * ``message: str``: 回复的信息
         """
         assert operate > 0
-        return await bot.api.post('/resp/memberJoinRequestEvent',
-                                  params={
-                                      'eventId': self.event_id,
-                                      'groupId': self.group_id,
-                                      'fromId': self.from_id,
-                                      'operate': operate,
-                                      'message': message
-                                  })
+        return await bot.resp_memberJoinRequestEvent(
+                              event_id=self.event_id,
+                              group_id=self.group_id,
+                              from_id=self.from_id,
+                              operate=operate,
+                              message=message
+                          )
 
 
 class BotInvitedJoinGroupRequestEvent(RequestEvent):
@@ -143,14 +142,14 @@ class BotInvitedJoinGroupRequestEvent(RequestEvent):
 
           * ``bot: Bot``: 当前的 ``Bot`` 对象
         """
-        return await bot.api.post('/resp/botInvitedJoinGroupRequestEvent',
-                                  params={
-                                      'eventId': self.event_id,
-                                      'groupId': self.group_id,
-                                      'fromId': self.from_id,
-                                      'operate': 0,
-                                      'message': ''
-                                  })
+        return await bot.resp_botInvitedJoinGroupRequestEvent(
+                              event_id=self.event_id,
+                              group_id=self.group_id,
+                              from_id=self.from_id,
+                              operate=0,
+                              message=''
+                          )
+
 
     async def reject(self, bot: "Bot", message: str = ""):
         """
@@ -163,11 +162,10 @@ class BotInvitedJoinGroupRequestEvent(RequestEvent):
           * ``bot: Bot``: 当前的 ``Bot`` 对象
           * ``message: str``: 邀请消息
         """
-        return await bot.api.post('/resp/botInvitedJoinGroupRequestEvent',
-                                  params={
-                                      'eventId': self.event_id,
-                                      'groupId': self.group_id,
-                                      'fromId': self.from_id,
-                                      'operate': 1,
-                                      'message': message
-                                  })
+        return await bot.resp_botInvitedJoinGroupRequestEvent(
+                              event_id=self.event_id,
+                              group_id=self.group_id,
+                              from_id=self.from_id,
+                              operate=1,
+                              message=message
+                          )

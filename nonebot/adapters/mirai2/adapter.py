@@ -1,5 +1,6 @@
 import asyncio
 import json
+import re
 from typing import Any, Dict, List, Literal, Optional, cast
 from nonebot.typing import overrides
 from nonebot.exception import ActionFailed
@@ -122,6 +123,9 @@ class Adapter(BaseAdapter):
     ) -> Any:
 
         def snake_to_camel(name: str):
+            for i in ['anno', 'resp']:
+                if re.match(i, name):
+                    return name
             first, *rest = name.split('_')
             return ''.join([first.lower(), *(r.title() for r in rest)])
 
