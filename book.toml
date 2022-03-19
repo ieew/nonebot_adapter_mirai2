@@ -1,0 +1,7 @@
+[book]
+authors = ["ieew <i@ieew.cc>"]
+language = "zh-cn"
+multilingual = false
+src = "src"
+title = "nonebot-adapter-mirai2 文档"
+
