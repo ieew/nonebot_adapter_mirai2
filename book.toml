@@ -1,0 +1,11 @@
+[book]
+authors = ["ieew <i@ieew.cc>"]
+language = "zh-cn"
+multilingual = false
+src = "src"
+title = "docs"
+
+[preprocessor.toc]
+command = "mdbook-toc"
+renderer = ["html"]
+
