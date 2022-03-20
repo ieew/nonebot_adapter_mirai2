@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>概述 - nonebot-adapter-mirai2 文档</title>
+        <title>事件处理器 - nonebot-adapter-mirai2 文档</title>
 
 
         <!-- Custom HTML head -->
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html" class="active"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="安装与配置.html"><strong aria-hidden="true">2.</strong> 安装与配置</a></li><li class="chapter-item expanded "><a href="用法.html"><strong aria-hidden="true">3.</strong> 用法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="消息处理器.html"><strong aria-hidden="true">3.1.</strong> 消息处理器</a></li><li class="chapter-item expanded "><a href="事件处理器.html"><strong aria-hidden="true">3.2.</strong> 事件处理器</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="安装与配置.html"><strong aria-hidden="true">2.</strong> 安装与配置</a></li><li class="chapter-item expanded "><a href="用法.html"><strong aria-hidden="true">3.</strong> 用法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="消息处理器.html"><strong aria-hidden="true">3.1.</strong> 消息处理器</a></li><li class="chapter-item expanded "><a href="事件处理器.html" class="active"><strong aria-hidden="true">3.2.</strong> 事件处理器</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -142,24 +142,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="概述"><a class="header" href="#概述">概述</a></h2>
-<p><code>nonebot-adapter-mirai2</code> 是一个用于为 <code>nonebot2</code> 提供 <code>mirai-api-http</code> 协议兼容功能的协议适配器。</p>
-<p>而 <code>mirai-api-http</code> 是无头 <code>Bot</code> 客户端 <code>mirai</code> 的一个基于 <code>http</code> 的 <code>api</code> 协议。在你使用这一协议之前&gt;你可能需要对 <code>http</code> 协议有一定的了解。</p>
-<h3 id="相关链接"><a class="header" href="#相关链接">相关链接</a></h3>
-<ul>
-<li><strong>mirai:</strong> <a href="https://github.com/mamoe/mirai" title="源码">github</a> <a href="https://mirai.mamoe.net/" title="https://mirai.mamoe.net">论坛</a> <a href="https://repo.maven.apache.org/maven2/net/mamoe" title="Maven Central">下载</a></li>
-<li><strong>mirai-api-http:</strong> <a href="https://github.com/project-mirai/mirai-api-http" title="源码">github</a> <a href="https://docs.mirai.mamoe.net/mirai-api-http">文档</a> <a href="https://github.com/project-mirai/mirai-api-http/releases" title="github/release">下载</a></li>
-<li><strong>nonebot2:</strong> <a href="https://github.com/nonebot/nonebot2" title="源码">github</a></li>
-</ul>
+                        <blockquote>
+<p>几乎所有类型的事件处理器都可以在 `nonebot.adapters.mirai2.event.* 中导入。</p>
+</blockquote>
+<h3 id="范例"><a class="header" href="#范例">范例</a></h3>
+<pre><code class="language-python">from nonebot import on_notice
+from nonebot.adapters.mirai2.event import BotUnmuteEvent
+
+
+notice = on_notice()
+async def _(bot: Bot, event: BotUnmuteEvent)
+	...
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-
-                            <a rel="next" href="安装与配置.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                            <a rel="prev" href="消息处理器.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
                             </a>
+
 
                         <div style="clear: both"></div>
                     </nav>
@@ -167,10 +170,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-
-                    <a rel="next" href="安装与配置.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                    <a rel="prev" href="消息处理器.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
                     </a>
+
             </nav>
 
         </div>

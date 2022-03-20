@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="用法.html"><strong aria-hidden="true">2.</strong> 用法</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="安装与配置.html"><strong aria-hidden="true">2.</strong> 安装与配置</a></li><li class="chapter-item expanded "><a href="用法.html"><strong aria-hidden="true">3.</strong> 用法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="消息处理器.html"><strong aria-hidden="true">3.1.</strong> 消息处理器</a></li><li class="chapter-item expanded "><a href="事件处理器.html"><strong aria-hidden="true">3.2.</strong> 事件处理器</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -216,6 +216,42 @@ adapterSettings:
     port: 5700 # 该端口务必不要和 nonebot2 相冲突, 因为 nonebot2 会默认监听 8080 端口。
                # 如果 mirai 侧也监听 8080 端口则会导致其中一方的 web 服务启动失败
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h2 id="群消息"><a class="header" href="#群消息">群消息</a></h2>
+<pre><code class="language-python">from nonebot import on_message
+from nonebot.adapters.mirai2 import Bot, GroupMessage, MessageSegment
+
+
+msging = on_message()
+
+@msging.handle()
+async def _(bot: Bot, event: GroupMessage):
+	...
+	await msging.send(MessageSegment.plan(&quot;xxx&quot;))
+
+</code></pre>
+<h2 id="好友消息"><a class="header" href="#好友消息">好友消息</a></h2>
+<pre><code class="language-python">from nonebot.adapters.mirai2 import FriendMessage, MessageSegment
+
+
+msg = on_message()
+
+@msg.handle()
+async def _(bot: Bot, event: FriendMessage):
+	...
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><blockquote>
+<p>几乎所有类型的事件处理器都可以在 `nonebot.adapters.mirai2.event.* 中导入。</p>
+</blockquote>
+<h3 id="范例"><a class="header" href="#范例">范例</a></h3>
+<pre><code class="language-python">from nonebot import on_notice
+from nonebot.adapters.mirai2.event import BotUnmuteEvent
+
+
+notice = on_notice()
+async def _(bot: Bot, event: BotUnmuteEvent)
+	...
+</code></pre>
 
                     </main>
 
@@ -234,6 +270,20 @@ adapterSettings:
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3000/__livereload");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

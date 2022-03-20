@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="用法.html"><strong aria-hidden="true">2.</strong> 用法</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="安装与配置.html"><strong aria-hidden="true">2.</strong> 安装与配置</a></li><li class="chapter-item expanded "><a href="用法.html"><strong aria-hidden="true">3.</strong> 用法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="消息处理器.html"><strong aria-hidden="true">3.1.</strong> 消息处理器</a></li><li class="chapter-item expanded "><a href="事件处理器.html"><strong aria-hidden="true">3.2.</strong> 事件处理器</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,6 +163,20 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3000/__livereload");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

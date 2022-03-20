@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="用法.html" class="active"><strong aria-hidden="true">2.</strong> 用法</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="概述.html"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="安装与配置.html"><strong aria-hidden="true">2.</strong> 安装与配置</a></li><li class="chapter-item expanded "><a href="用法.html" class="active"><strong aria-hidden="true">3.</strong> 用法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="消息处理器.html"><strong aria-hidden="true">3.1.</strong> 消息处理器</a></li><li class="chapter-item expanded "><a href="事件处理器.html"><strong aria-hidden="true">3.2.</strong> 事件处理器</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -142,79 +142,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="说明"><a class="header" href="#说明">说明</a></h2>
-<p>该项目依赖 <a href="https://github.com/nonebot/nonebot2"><strong><code>nonebot2</code></strong></a> 而存在, 因此使用之前必须先安装 <a href="https://github.com/nonebot/nonebot2"><strong><code>nonebot2</code></strong></a></p>
-<h2 id="安装"><a class="header" href="#安装">安装</a></h2>
-<p><strong>我们推荐您在虚拟环境中使用, 这样可以防止干扰您的其他 python 项目的正常运行</strong></p>
-<pre><code class="language-bash">python -m venv venv  # 创建一个虚拟环境
-source venv/bin/activate  # win 请在 PowerShell 或 cmd 使用 venv/bin/activate.ps1 或 venv/bin/activate.bat  # 进入虚拟环境
-pip install nb-cli  # 安装 nonebot2 脚手架(推荐)
-# 当然你也可以不使用脚手架 → pip install nonebot2
-nb create  # 使用 nb-cli 创建一个最原始的 bot
-nb adapter install mirai2  # 仅在上一条指令创建 bot 时没有选中 mirai2 的情况下才需要
-
-# 退出虚拟环境请使用 deactivate
-</code></pre>
-<h2 id="配置-env"><a class="header" href="#配置-env">配置 <code>.env</code></a></h2>
-<pre><code class="language-env">ENVIRONMENT=dev
-VERIFY_KEY=QDTTEGYGfOGBVcX  # MiraiApiHttp2 配置文件里的 token
-driver=~fastapi+~websockets  # nonebot_adapter_mirai2 需要使用 websockets 驱动所以需要加该行
-
-MIRAI_HOST=127.0.0.1  # MiraiApiHttp2 的 ip
-MIRAI_PORT=5700  # MiraiApiHttp2 的端口
-MIRAI_QQ=[&quot;1234567890&quot;]  # Mirai 上已经登录的 qq 号
-SUPERUSER=[]  # nonebot2 的超管(也可理解为bot的主人什么的)
-</code></pre>
-<h2 id="使用"><a class="header" href="#使用">使用</a></h2>
-<p><strong>需先启动 mirai 并登录 bot 账号，因为使用的是正向 ws</strong></p>
-<p><code>bot.py</code> 中的内容</p>
-<pre><code class="language-python">#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-import nonebot
-from nonebot.adapters.mirai2 import Adapter as MIRAI2Adapter  # 引用 nonebot_adapter_mirai2
-
-nonebot.init()
-app = nonebot.get_asgi()
-
-driver = nonebot.get_driver()
-driver.register_adapter(MIRAI2Adapter)  # 将其塞入 nonebot2 中
-
-nonebot.load_from_toml(&quot;pyproject.toml&quot;)
-
-if __name__ == &quot;__main__&quot;:
-    nonebot.logger.warning(&quot;Always use `nb run` to start the bot instead of manually running!&quot;)
-    nonebot.run(app=&quot;__mp_main__:app&quot;)
-</code></pre>
-<h2 id="注意"><a class="header" href="#注意">注意</a></h2>
-<ul>
-<li><strong>因 <code>nonebot2.0.0b1</code> 的 <code>adapter</code> 相关 <code>api</code> 存在变化，因此该 <code>adapter</code> 很可能不兼容早于 <code>nonebot2.0.0b1</code> 的版本号。</strong></li>
-<li><strong><code>nonebot_adapter_mirai2</code> 使用的是正向 ws, 因此需要用户首先启动 <code>mirai</code> 并已登录 <code>bot</code> 账号, 然后再启动 <code>nonebot2</code></strong></li>
-<li><strong>如果想 <code>Pull requests</code> 请往 <code>dev</code> 分支中提交 <code>pr</code>，我将在后续更新时合并到 <code>main</code> 中</strong></li>
-</ul>
-<h2 id="mirai-侧-ws-配置范例"><a class="header" href="#mirai-侧-ws-配置范例"><code>mirai</code> 侧 <code>ws</code> 配置范例</a></h2>
-<pre><code class="language-yaml">adapters: 
-  - ws
-debug: false
-enableVerify: true
-verifyKey: INITKEYGfCYBVcX
-singleMode: false
-cacheSize: 2048
-adapterSettings:
-  ws:
-    host: localhost
-    port: 5700 # 该端口务必不要和 nonebot2 相冲突, 因为 nonebot2 会默认监听 8080 端口。
-               # 如果 mirai 侧也监听 8080 端口则会导致其中一方的 web 服务启动失败
-</code></pre>
-
+                        
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="概述.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="安装与配置.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="消息处理器.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -222,14 +161,31 @@ adapterSettings:
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="概述.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="安装与配置.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="消息处理器.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3000/__livereload");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
