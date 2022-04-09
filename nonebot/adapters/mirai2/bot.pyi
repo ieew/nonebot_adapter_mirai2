@@ -625,12 +625,12 @@ class Bot(BaseBot):
         content: str,
         send_to_new_member: Optional[bool],
         pinned: Optional[bool],
-        showEditCard: Optional[bool],
-        showPopup: Optional[bool],
-        requireConfirmation: Optional[bool],
-        imageUrl: Optional[str],
-        imagePath: Optional[str],
-        imageBase64: Optional[str]
+        show_edit_card: Optional[bool],
+        show_popup: Optional[bool],
+        require_confirmation: Optional[bool],
+        image_url: Optional[str],
+        image_path: Optional[str],
+        image_base64: Optional[str]
     ):
         """
         :说明:
