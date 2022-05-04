@@ -224,7 +224,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def recall(self, target: int):
+    async def recall(self, *, target: int):
         """
         :说明:
 
