@@ -151,7 +151,7 @@ class Adapter(BaseAdapter):
         result: Dict[str, Any] = await SyncIDStore.fetch_response(
             sync_id, timeout=self.config.api_timeout)
 
-        if ('data' not in result) or (result['data'].get('code') != 0):
+        if ('data') not in result or (result['data']).get('code') not in (None, 0):
             raise ActionFailed(
                 f'{self.get_name()} | {result.get("data") or result}'
             )
