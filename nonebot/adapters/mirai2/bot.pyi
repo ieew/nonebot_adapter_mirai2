@@ -21,7 +21,7 @@ class Bot(BaseBot):
     _type = 'mirai'
 
     async def send(
-        self,
+        self, *,
         event: Event,
         message: Union[MessageChain, MessageSegment, str],
         at_sender: Optional[bool] = False,
@@ -52,7 +52,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def message_from_id(self, id: int):
+    async def message_from_id(self, *, id: int):
         """
         :说明:
 
@@ -88,7 +88,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def member_list(self, target: int):
+    async def member_list(self, *, target: int):
         """
         :说明:
 
@@ -112,7 +112,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def friend_pro_file(self, target: int):
+    async def friend_pro_file(self, *, target: int):
         """
         :说明:
 
@@ -124,7 +124,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def member_pro_file(self, target: int, member_id: int):
+    async def member_profile(self, *, target: int, member_id: int):
         """
         :说明:
 
@@ -138,7 +138,7 @@ class Bot(BaseBot):
         ...
 
     async def send_friend_message(
-        self,
+        self, *,
         target: int,
         message_chain: MessageChain,
         quote: Optional[int]
@@ -160,7 +160,7 @@ class Bot(BaseBot):
         ...
 
     async def send_group_message(
-        self,
+        self, *,
         target: int,
         message_chain: MessageChain,
         quote: Optional[int]
@@ -182,7 +182,7 @@ class Bot(BaseBot):
         ...
 
     async def send_temp_message(
-        self,
+        self, *,
         qq: int,
         group: int,
         message_chain: MessageChain,
@@ -206,7 +206,7 @@ class Bot(BaseBot):
         ...
 
     async def send_nudge(
-        self,
+        self, *,
         target: int,
         subject: int,
         kind: str
@@ -224,7 +224,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def recall(self, target: int):
+    async def recall(self, *, target: int):
         """
         :说明:
 
@@ -237,7 +237,7 @@ class Bot(BaseBot):
         ...
 
     async def file_list(
-        self,
+        self, *,
         id: str,
         path: Optional[str],
         target: Optional[int],
@@ -269,7 +269,7 @@ class Bot(BaseBot):
         ...
 
     async def file_info(
-        self,
+        self, *,
         id: str,
         path: Optional[str],
         target: Optional[int],
@@ -297,7 +297,7 @@ class Bot(BaseBot):
         ...
 
     async def file_mkdir(
-        self,
+        self, *,
         id: str,
         directory_name: str,
         path: Optional[str],
@@ -325,7 +325,7 @@ class Bot(BaseBot):
         ...
 
     async def file_delete(
-        self,
+        self, *,
         id: str,
         path: Optional[str],
         target: Optional[int],
@@ -351,7 +351,7 @@ class Bot(BaseBot):
         ...
 
     async def file_move(
-        self,
+        self, *,
         id: str,
         path: Optional[str],
         target: Optional[int],
@@ -381,7 +381,7 @@ class Bot(BaseBot):
         ...
 
     async def file_rename(
-        self,
+        self, *,
         id: str,
         path: Optional[str],
         target: Optional[int],
@@ -408,7 +408,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def delete_friend(self, target: int):
+    async def delete_friend(self, *, target: int):
         """
         :说明:
 
@@ -421,7 +421,7 @@ class Bot(BaseBot):
         ...
 
     async def mute(
-        self,
+        self, *,
         target: int,
         member_id: int,
         time: int
@@ -439,7 +439,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def unmute(self, target: int, member_id: int):
+    async def unmute(self, *, target: int, member_id: int):
         """
         :说明:
 
@@ -453,7 +453,7 @@ class Bot(BaseBot):
         ...
 
     async def kick(
-        self,
+        self, *,
         target: int,
         member_id: int,
         msg: Optional[str]
@@ -474,7 +474,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def quit(self, target: int):
+    async def quit(self, *, target: int):
         """
         :说明:
 
@@ -486,7 +486,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def mute_all(self, target: int):
+    async def mute_all(self, *, target: int):
         """
         :说明:
 
@@ -498,7 +498,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def unmute_all(self, target: int):
+    async def unmute_all(self, *, target: int):
         """
         :说明:
 
@@ -510,7 +510,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def set_essence(self, target: int):
+    async def set_essence(self, *, target: int):
         """
         :说明:
 
@@ -524,7 +524,7 @@ class Bot(BaseBot):
 
     @overload
     async def group_config(
-        self,
+        self, *,
         subcommand: Literal["get", "update"],
         target: int,
     ):
@@ -542,7 +542,7 @@ class Bot(BaseBot):
 
     @overload
     async def group_config(
-        self,
+        self, *,
         subcommand: Literal["get", "update"],
         target: int,
         config: dict,
@@ -569,7 +569,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def member_info(self, target: int):
+    async def member_info(self, *, target: int):
         """
         :说明:
 
@@ -582,7 +582,7 @@ class Bot(BaseBot):
         ...
 
     async def member_admin(
-        self,
+        self, *,
         target: int,
         member_id: int,
         assign: bool
@@ -601,7 +601,7 @@ class Bot(BaseBot):
         ...
 
     async def anno_list(
-        self,
+        self, *,
         id: int,
         offset: Optional[int],
         size: Optional[int]
@@ -620,7 +620,7 @@ class Bot(BaseBot):
         ...
 
     async def anno_publish(
-        self,
+        self, *,
         target: int,
         content: str,
         send_to_new_member: Optional[bool],
@@ -653,7 +653,7 @@ class Bot(BaseBot):
         ...
 
     async def anno_delete(
-        self, id: int, fid: str
+        self, *, id: int, fid: str
     ):
         """
         :说明:
