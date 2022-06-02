@@ -9,4 +9,4 @@
 
 ## 社群
 
-- **qq频道: ** [点击链接加入讨论子频道【mirai2适配器】](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1iFUvf&appChannel=share&businessType=7&from=246610&biz=ka "不知道这链接能存活多久，暂时先挂着看看")
+- qq频道:  [点击链接加入讨论子频道【mirai2适配器】](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1iFUvf&appChannel=share&businessType=7&from=246610&biz=ka "不知道这链接能存活多久，暂时先挂着看看")
