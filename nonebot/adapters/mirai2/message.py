@@ -54,7 +54,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
 
     @overrides(BaseMessageSegment)
     def __str__(self) -> str:
-        return self.data['text'] if self.is_text() else repr(self)
+        return self.data.get('text', "") if self.is_text() else repr(self)
 
     def __repr__(self) -> str:
         return '[mirai:%s]' % ','.join([
@@ -64,6 +64,18 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
                 self.data.items(),
             ),
         ])
+
+    @classmethod
+    def _validate(cls, value):
+        if isinstance(value, cls):
+            return value
+        if not isinstance(value, dict):
+            raise ValueError(f"Expected dict for MessageSegment, got {type(value)}")
+        if "type" not in value:
+            raise ValueError(
+                f"Expected dict with 'type' for MessageSegment, got {value}"
+            )
+        return cls(**value)
 
     @overrides(BaseMessageSegment)
     def is_text(self) -> bool:
@@ -253,7 +265,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
         :说明:
 
           掷骰子消息
-        
+
         :参数:
 
           * ``value: int``: 骰子的值
@@ -281,7 +293,6 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
 
         """
         return cls(type=MessageType.POKE, name=name)
-
 
     @classmethod
     def market_face(
