@@ -27,7 +27,6 @@ def process_source(bot: "Bot", event: MessageEvent) -> MessageEvent:
 def process_quote(bot: "Bot", event: Union[MessageEvent, GroupMessage]) -> MessageEvent:
     quote = event.message_chain.extract_first(MessageType.QUOTE)
     if quote is not None:
-        event.to_quote = True
         event.quote = MessageQuote.parse_obj(quote.data)
         if quote.data['senderId'] == event.self_id:
             event.to_me = True
@@ -66,12 +65,12 @@ def process_nick(bot: "Bot", event: GroupMessage) -> GroupMessage:
 
 async def process_event(bot: "Bot", event: Event) -> None:
     if isinstance(event, MessageEvent):
-        log.debug(event.message_chain)
         event = process_source(bot, event)
         event = process_quote(bot, event)
         if isinstance(event, GroupMessage):
             event = process_nick(bot, event)
             event = process_at(bot, event)
+    log.debug(event.message_chain)
     await handle_event(bot, event)
 
 

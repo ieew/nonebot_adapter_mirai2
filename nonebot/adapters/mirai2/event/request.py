@@ -1,4 +1,3 @@
-from ast import operator
 from typing import TYPE_CHECKING
 from pydantic import Field
 from typing_extensions import Literal
@@ -15,6 +14,7 @@ class RequestEvent(Event):
     event_id: int = Field(alias='eventId')
     message: str
     nick: str
+
     @overrides(Event)
     def get_type(self) -> Literal["message", "notice", "request", "meta_event"]:  # noqa
         return 'request'
@@ -42,7 +42,6 @@ class NewFriendRequestEvent(RequestEvent):
                               operate=0,
                               message=''
                           )
-
 
     async def reject(self,
                      bot: "Bot",
@@ -96,7 +95,6 @@ class MemberJoinRequestEvent(RequestEvent):
                               operate=0,
                               message=''
                           )
-   
 
     async def reject(self,
                      bot: "Bot",
@@ -152,7 +150,6 @@ class BotInvitedJoinGroupRequestEvent(RequestEvent):
                               operate=0,
                               message=''
                           )
-
 
     async def reject(self, bot: "Bot", message: str = ""):
         """

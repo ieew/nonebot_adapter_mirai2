@@ -7,11 +7,12 @@ r"""
 """
 from .base import (Event, GroupChatInfo, GroupInfo, PrivateChatInfo,
                    UserPermission)
-from .message import *
-from .notice import *
-from .request import *
+from .message import *  # noqa
+from .notice import *  # noqa
+from .request import *  # noqa
+from .meta import *  # noqa
 
-__all__ = [
+__all__ = [  # noqa
     'Event', 'GroupChatInfo', 'GroupInfo', 'PrivateChatInfo', 'UserPermission',
     'MessageSource', 'MessageEvent', 'GroupMessage', 'FriendMessage',
     'TempMessage', 'NoticeEvent', 'MuteEvent', 'BotMuteEvent', 'BotUnmuteEvent',
@@ -25,5 +26,7 @@ __all__ = [
     'MemberCardChangeEvent', 'MemberSpecialTitleChangeEvent',
     'BotGroupPermissionChangeEvent', 'MemberPermissionChangeEvent',
     'RequestEvent', 'NewFriendRequestEvent', 'MemberJoinRequestEvent',
-    'BotInvitedJoinGroupRequestEvent'
+    'BotInvitedJoinGroupRequestEvent', 'MetaEvent', 'BotOnlineEvent',
+    'BotOfflineEventActive', 'BotOfflineEventForce', 'BotOfflineEventDropped'
+    'BotReloginEvent'
 ]

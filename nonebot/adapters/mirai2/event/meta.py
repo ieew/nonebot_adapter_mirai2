@@ -1,10 +1,12 @@
 from typing import Literal
+from nonebot.typing import overrides
 from .base import Event
 
 
 class MetaEvent(Event):
     """元事件基类"""
     qq: int
+
     @overrides(Event)
     def get_type(self) -> Literal["meta_event"]:  # noqa
         return 'meta_event'

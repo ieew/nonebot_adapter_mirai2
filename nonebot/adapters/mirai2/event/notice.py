@@ -11,6 +11,7 @@ class NoticeEvent(Event):
     def get_type(self) -> Literal["notice"]:  # noqa
         return 'notice'
 
+
 class MuteEvent(NoticeEvent):
     """禁言类事件基类"""
     operator: GroupChatInfo
