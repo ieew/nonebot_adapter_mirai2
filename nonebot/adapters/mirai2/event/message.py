@@ -34,7 +34,6 @@ class MessageEvent(Event):
     message_chain: MessageChain = Field(alias='messageChain')
     source: Optional[MessageSource] = None
     sender: Any
-    to_quote: bool = False
     quote: Optional[MessageQuote] = None
 
     @overrides(Event)
