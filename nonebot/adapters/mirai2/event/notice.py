@@ -1,14 +1,15 @@
-from typing import Any, Optional
-
+from typing import Any, Literal, Optional
 from pydantic import Field
+from nonebot.typing import overrides
 
 from .base import Event, GroupChatInfo, GroupInfo, UserPermission
 
 
 class NoticeEvent(Event):
     """通知事件基类"""
-    pass
-
+    @overrides(Event)
+    def get_type(self) -> Literal["notice"]:  # noqa
+        return 'notice'
 
 class MuteEvent(NoticeEvent):
     """禁言类事件基类"""

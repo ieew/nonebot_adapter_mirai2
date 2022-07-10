@@ -17,11 +17,11 @@ from .bot import Bot
 from .event import Event
 from .config import Config
 from .utils import (
-    Log as log,
     MiraiDataclassEncoder,
     SyncIDStore,
     process_event
 )
+from . import log
 
 RECONNECT_INTERVAL = 3.0
 

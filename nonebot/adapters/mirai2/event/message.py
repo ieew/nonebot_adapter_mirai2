@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -36,6 +36,10 @@ class MessageEvent(Event):
     sender: Any
     to_quote: bool = False
     quote: Optional[MessageQuote] = None
+
+    @overrides(Event)
+    def get_type(self) -> Literal["message"]:  # noqa
+        return 'message'
 
     @overrides(Event)
     def get_message(self) -> MessageChain:

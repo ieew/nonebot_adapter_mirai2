@@ -1,9 +1,13 @@
+from typing import Literal
 from .base import Event
 
 
 class MetaEvent(Event):
     """元事件基类"""
     qq: int
+    @overrides(Event)
+    def get_type(self) -> Literal["meta_event"]:  # noqa
+        return 'meta_event'
 
 
 class BotOnlineEvent(MetaEvent):

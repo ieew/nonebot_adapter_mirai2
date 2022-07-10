@@ -1,8 +1,8 @@
 from ast import operator
 from typing import TYPE_CHECKING
-
 from pydantic import Field
 from typing_extensions import Literal
+from nonebot.typing import overrides
 
 from .base import Event
 
@@ -15,6 +15,9 @@ class RequestEvent(Event):
     event_id: int = Field(alias='eventId')
     message: str
     nick: str
+    @overrides(Event)
+    def get_type(self) -> Literal["message", "notice", "request", "meta_event"]:  # noqa
+        return 'request'
 
 
 class NewFriendRequestEvent(RequestEvent):

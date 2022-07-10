@@ -1,44 +1,20 @@
 import asyncio
 import re
 import sys
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from nonebot.message import handle_event
 from nonebot.typing import overrides
-from nonebot.utils import DataclassEncoder, escape_tag, logger_wrapper
+from nonebot.utils import DataclassEncoder
 
 from .exception import ApiNotAvailable
 
 from .event import Event, GroupMessage, MessageEvent, MessageSource, MessageQuote
 from .message import MessageSegment, MessageType
+from . import log
 
 if TYPE_CHECKING:
     from .bot import Bot
-
-
-class Log:
-
-    @staticmethod
-    def log(level: str, message: str, exception: Optional[Exception] = None):
-        logger = logger_wrapper('Mirai V2')
-        message = '' + escape_tag(message) + ''
-        logger(level=level.upper(), message=message, exception=exception)
-
-    @classmethod
-    def info(cls, message: Any):
-        cls.log('INFO', str(message))
-
-    @classmethod
-    def debug(cls, message: Any):
-        cls.log('DEBUG', str(message))
-
-    @classmethod
-    def warn(cls, message: Any):
-        cls.log('WARNING', str(message))
-
-    @classmethod
-    def error(cls, message: Any, exception: Optional[Exception] = None):
-        cls.log('ERROR', str(message), exception=exception)
 
 
 def process_source(bot: "Bot", event: MessageEvent) -> MessageEvent:
@@ -48,11 +24,15 @@ def process_source(bot: "Bot", event: MessageEvent) -> MessageEvent:
     return event
 
 
-def process_quote(bot: "Bot", event: MessageEvent) -> MessageEvent:
+def process_quote(bot: "Bot", event: Union[MessageEvent, GroupMessage]) -> MessageEvent:
     quote = event.message_chain.extract_first(MessageType.QUOTE)
     if quote is not None:
         event.to_quote = True
         event.quote = MessageQuote.parse_obj(quote.data)
+        if quote.data['senderId'] == event.self_id:
+            event.to_me = True
+        else:
+            event.message_chain.insert(0, quote)
     return event
 
 
@@ -78,31 +58,20 @@ def process_nick(bot: "Bot", event: GroupMessage) -> GroupMessage:
             if matched is not None:
                 event.to_me = True
                 nickname = matched.group(1)
-                Log.info(f'User is calling me {nickname}')
+                log.info(f'User is calling me {nickname}')
                 plain.data['text'] = text[matched.end():]
         event.message_chain.insert(0, plain)
     return event
 
 
-def process_reply(bot: "Bot", event: GroupMessage) -> GroupMessage:
-    reply = event.message_chain.extract_first(MessageType.QUOTE)
-    if reply is not None:
-        if reply.data['senderId'] == event.self_id:
-            event.to_me = True
-        else:
-            event.message_chain.insert(0, reply)
-    return event
-
-
 async def process_event(bot: "Bot", event: Event) -> None:
     if isinstance(event, MessageEvent):
-        Log.debug(event.message_chain)
+        log.debug(event.message_chain)
         event = process_source(bot, event)
         event = process_quote(bot, event)
         if isinstance(event, GroupMessage):
             event = process_nick(bot, event)
             event = process_at(bot, event)
-            event = process_reply(bot, event)
     await handle_event(bot, event)
 
 

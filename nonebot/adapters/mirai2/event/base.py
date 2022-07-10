@@ -7,9 +7,10 @@ from typing_extensions import Literal
 
 from nonebot.adapters import Event as BaseEvent
 from nonebot.adapters import Message as BaseMessage
-from nonebot.log import logger
 from nonebot.typing import overrides
 from nonebot.utils import escape_tag
+
+from .. import log
 
 
 class UserPermission(str, Enum):
@@ -91,7 +92,7 @@ class Event(BaseEvent):
             try:
                 return event_class.parse_obj(data)
             except ValidationError as e:
-                logger.info(
+                log.info(
                     f'Failed to parse {data} to class {event_class.__name__}: '
                     f'{e.errors()!r}. Fallback to parent class.')
                 event_class = event_class.__base__  # type: ignore
@@ -99,16 +100,8 @@ class Event(BaseEvent):
         raise ValueError(f'Failed to serialize {data}.')
 
     @overrides(BaseEvent)
-    def get_type(self) -> Literal["message", "notice", "request", "meta_event"]:
-        from . import message, meta, notice, request
-        if isinstance(self, message.MessageEvent):
-            return 'message'
-        elif isinstance(self, notice.NoticeEvent):
-            return 'notice'
-        elif isinstance(self, request.RequestEvent):
-            return 'request'
-        else:
-            return 'meta_event'
+    def get_type(self) -> Literal["message", "notice", "request", "meta_event"]:  # noqa
+        raise ValueError("Event has no message!")
 
     @overrides(BaseEvent)
     def get_event_name(self) -> str:
