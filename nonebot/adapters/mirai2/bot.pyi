@@ -666,3 +666,72 @@ class Bot(BaseBot):
             * ``fid: str`` 群公告唯一 id
         """
         ...
+
+    async def resp_newFriendRequestEvent(
+        self, *,
+        event_id: int,
+        group_id: int,
+        from_id: int,
+        operate: int,
+        message: str
+    ):
+        """
+        :说明:
+
+            处理添加好友事件
+
+        :参数:
+
+            * ``event_id: int`` 事件 id
+            * ``group_id: int`` 群 id
+            * ``from_id: int`` 事件对应申请人 qq id
+            * ``operate: int`` 响应操作类型： 0 同意  1 拒绝  2 拒绝并加入黑名单
+            * ``message: str`` 回复的消息内容
+        """
+        ...
+
+    async def resp_memberJoinRequestEvent(
+        self, *,
+        event_id: int,
+        group_id: int,
+        from_id: int,
+        operate: int,
+        message: str
+    ):
+        """
+        :说明:
+
+            处理用户入群申请事件
+
+        :参数:
+
+            * ``event_id: int`` 事件 id
+            * ``group_id: int`` 群 id
+            * ``from_id: int`` 事件对应申请人 qq id
+            * ``operate: int`` 响应操作类型： 0 同意入群  1 拒绝入群  2 忽略请求  3 拒绝入群并加入黑名单  4 忽略请求并加入黑名单  # noqa
+            * ``message: str`` 回复的消息内容
+        """
+        ...
+
+    async def resp_botInvitedJoinGroupRequestEvent(
+        self, *,
+        event_id: int,
+        group_id: int,
+        from_id: int,
+        operate: int,
+        message: str
+    ):
+        """
+        :说明:
+
+            处理 bot 被邀请入群事件
+
+        :参数:
+
+            * ``event_id: int`` 事件 id
+            * ``group_id: int`` 群 id
+            * ``from_id: int`` 事件对应申请人 qq id
+            * ``operate: int`` 响应操作类型： 0 同意邀请  1 拒绝邀请
+            * ``message: str`` 回复的消息内容
+        """
+        ...
