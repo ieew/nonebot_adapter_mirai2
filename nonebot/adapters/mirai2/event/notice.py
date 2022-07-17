@@ -1,6 +1,7 @@
-from typing import Any, Literal, Optional
-from pydantic import Field
+from enum import Enum
 from nonebot.typing import overrides
+from pydantic import BaseModel, Field
+from typing import Any, Literal, Optional
 
 from .base import Event, GroupChatInfo, GroupInfo, UserPermission
 
@@ -156,3 +157,22 @@ class MemberPermissionChangeEvent(MemberStateChangeEvent):
     """成员权限改变的事件（该成员不是Bot）"""
     origin: UserPermission
     current: UserPermission
+
+
+class NudgeSubjectKind(Enum):
+    GROUP = "Group"
+    FRIEND = "Friend"
+
+
+class NudgeSubject(BaseModel):
+    id: int
+    kind: NudgeSubjectKind
+    suffix: str
+
+
+class NudgeEvent(NoticeEvent):
+    """戳一戳事件"""
+    from_id: int = Field(alias="FromId")
+    target: int
+    action: str
+    subject: NudgeSubject
