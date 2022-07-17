@@ -1,7 +1,6 @@
 from datetime import datetime
-from typing import Any, Literal, Optional
-
 from pydantic import BaseModel, Field
+from typing import Any, Literal, Optional
 
 from nonebot.typing import overrides
 

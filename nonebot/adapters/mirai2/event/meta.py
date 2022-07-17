@@ -1,6 +1,6 @@
+from .base import Event
 from typing import Literal
 from nonebot.typing import overrides
-from .base import Event
 
 
 class MetaEvent(Event):

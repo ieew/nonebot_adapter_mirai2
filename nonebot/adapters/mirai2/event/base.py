@@ -1,14 +1,14 @@
 import json
 from enum import Enum
+from typing_extensions import Literal
 from typing import Any, Dict, Optional, Type
 
 from pydantic import BaseModel, Field, ValidationError
-from typing_extensions import Literal
 
-from nonebot.adapters import Event as BaseEvent
-from nonebot.adapters import Message as BaseMessage
 from nonebot.typing import overrides
 from nonebot.utils import escape_tag
+from nonebot.adapters import Event as BaseEvent
+from nonebot.adapters import Message as BaseMessage
 
 from .. import log
 
