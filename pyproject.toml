@@ -11,7 +11,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0.0"
-nonebot2 = ">=2.0.0b1"
+nonebot2 = "^2.0.0-beta.4"
 
 [tool.poetry.dev-dependencies]
 
