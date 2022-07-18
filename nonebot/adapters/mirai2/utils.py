@@ -70,7 +70,6 @@ async def process_event(bot: "Bot", event: Event) -> None:
         if isinstance(event, GroupMessage):
             event = process_nick(bot, event)
             event = process_at(bot, event)
-    log.debug(event.message_chain)
     await handle_event(bot, event)
 
 
