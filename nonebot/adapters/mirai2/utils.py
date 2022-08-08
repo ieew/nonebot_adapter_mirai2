@@ -30,8 +30,6 @@ def process_quote(bot: "Bot", event: Union[MessageEvent, GroupMessage]) -> Messa
         event.quote = MessageQuote.parse_obj(quote.data)
         if quote.data['senderId'] == event.self_id:
             event.to_me = True
-        else:
-            event.message_chain.insert(0, quote)
     return event
 
 
