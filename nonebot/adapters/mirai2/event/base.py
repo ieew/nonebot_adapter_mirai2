@@ -37,7 +37,11 @@ class GroupInfo(BaseModel):
 class GroupChatInfo(BaseModel):
     id: int
     name: str = Field(alias='memberName')
+    special_title: Optional[str] = Field(alias='specialTitle')
     permission: UserPermission
+    join_timestamp: Optional[int] = Field(alias='joinTimestamp')
+    last_speak_timestamp: Optional[int] = Field(alias='lastSpeakTimestamp')
+    mute_time_remaining: Optional[int] = Field(alias='muteTimeRemaining')
     group: GroupInfo
 
 

@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 from typing import Any, Literal, Optional
 
 from .base import Event, GroupChatInfo, GroupInfo, UserPermission
+from .message import MessageChain
 
 
 class NoticeEvent(Event):
@@ -20,7 +21,7 @@ class MuteEvent(NoticeEvent):
 
 class BotMuteEvent(MuteEvent):
     """Bot被禁言"""
-    pass
+    duration_seconds: int = Field(alias='durationSeconds')
 
 
 class BotUnmuteEvent(MuteEvent):
@@ -44,31 +45,50 @@ class MemberUnmuteEvent(MuteEvent):
 class BotJoinGroupEvent(NoticeEvent):
     """Bot加入了一个新群"""
     group: GroupInfo
+    invitor: Optional[GroupChatInfo]
 
 
-class BotLeaveEventActive(BotJoinGroupEvent):
+class BotLeaveEventActive(NoticeEvent):
     """Bot主动退出一个群"""
-    pass
+    group: GroupInfo
 
 
-class BotLeaveEventKick(BotJoinGroupEvent):
+class BotLeaveEventKick(NoticeEvent):
     """Bot被踢出一个群"""
-    pass
+    group: GroupInfo
+    operator: Optional[GroupChatInfo]
+
+
+class BotLeaveEventDisband(NoticeEvent):
+    """Bot因群主解散群而退出群"""
+    group: GroupInfo
+    operator: Optional[GroupChatInfo]
 
 
 class MemberJoinEvent(NoticeEvent):
     """新人入群的事件"""
     member: GroupChatInfo
+    invitor: Optional[GroupChatInfo]
 
 
-class MemberLeaveEventKick(MemberJoinEvent):
+class MemberLeaveEventKick(NoticeEvent):
     """成员被踢出群（该成员不是Bot）"""
+    member: GroupChatInfo
     operator: Optional[GroupChatInfo] = None
 
 
-class MemberLeaveEventQuit(MemberJoinEvent):
+class MemberLeaveEventQuit(NoticeEvent):
     """成员主动离群（该成员不是Bot）"""
-    pass
+    member: GroupChatInfo
+
+
+class GroupRecallEvent(NoticeEvent):
+    """群消息撤回"""
+    author_id: int = Field(alias='authorId')
+    message_id: int = Field(alias='messageId')
+    time: int
+    group: GroupInfo
+    operator: Optional[GroupChatInfo] = None
 
 
 class FriendRecallEvent(NoticeEvent):
@@ -77,12 +97,6 @@ class FriendRecallEvent(NoticeEvent):
     message_id: int = Field(alias='messageId')
     time: int
     operator: int
-
-
-class GroupRecallEvent(FriendRecallEvent):
-    """群消息撤回"""
-    group: GroupInfo
-    operator: Optional[GroupChatInfo] = None
 
 
 class GroupStateChangeEvent(NoticeEvent):
@@ -121,6 +135,7 @@ class GroupAllowConfessTalkEvent(GroupStateChangeEvent):
     """坦白说"""
     origin: bool
     current: bool
+    is_bot: bool = Field(alias='isByBot')
 
 
 class GroupAllowMemberInviteEvent(GroupStateChangeEvent):
@@ -151,12 +166,14 @@ class BotGroupPermissionChangeEvent(MemberStateChangeEvent):
     """Bot在群里的权限被改变"""
     origin: UserPermission
     current: UserPermission
+    group: GroupInfo
 
 
 class MemberPermissionChangeEvent(MemberStateChangeEvent):
     """成员权限改变的事件（该成员不是Bot）"""
     origin: UserPermission
     current: UserPermission
+
 
 
 class NudgeSubjectKind(Enum):
@@ -176,3 +193,59 @@ class NudgeEvent(NoticeEvent):
     target: int
     action: str
     subject: NudgeSubject
+    suffix: str
+
+
+class friend(BaseModel):
+    id: int
+    nickname: str
+    remark: str
+
+
+class FriendInputStatusChangedEvent(NoticeEvent):
+    """好友输入状态改变事件"""
+    friend: friend
+    inputting: bool
+
+
+class FriendNickChangedEvent(NoticeEvent):
+    """好友昵称改变事件"""
+    friend: friend
+    from_name: str
+    new_name: str
+
+
+class action(Enum):
+    ACHIEVE = "achieve"
+    LOSE = "lose"
+
+
+class MemberHonorChangeEvent(NoticeEvent):
+    """群员称号改变"""
+    member: GroupChatInfo
+    action: action
+    honor: str
+
+
+class client(BaseModel):
+    id: int
+    platform: str
+    kind: int
+
+
+class OtherClientOnlineEvent(NoticeEvent):
+    """其他客户端上线"""
+    client: client
+
+
+class OtherClientOfflineEvent(NoticeEvent):
+    """其他客户端下线"""
+    client: client
+
+
+class CommandExecutedEvent(NoticeEvent):
+    """命令被执行"""
+    name: str
+    friend: Optional[friend]
+    member: Optional[GroupChatInfo]
+    args: MessageChain
