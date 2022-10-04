@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_adapter_mirai2"
-version = "0.0.16"
+version = "0.0.17"
 description = "兼容 MiraiApiHttp2.x 的 nonebot2_adapter"
 authors = ["ieew <i@ieew.cc>"]
 license = "AGPL-3.0"
