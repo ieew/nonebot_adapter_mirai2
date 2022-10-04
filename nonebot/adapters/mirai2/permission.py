@@ -3,32 +3,32 @@ from nonebot.permission import Permission
 from nonebot.adapters import Bot, Event
 
 from .event.base import UserPermission
-from .event.message import MessageEvent
+from .event.message import GroupMessage
 
 
 async def _group_member(bot: "Bot", event: "Event") -> bool:
-    return isinstance(event, MessageEvent) and \
+    return isinstance(event, GroupMessage) and \
         event.sender.permission == UserPermission.MEMBER
 
 
 async def _group_admin(bot: "Bot", event: "Event") -> bool:
-    return isinstance(event, MessageEvent) and \
+    return isinstance(event, GroupMessage) and \
         event.sender.permission == UserPermission.ADMINISTRATOR
 
 
 async def _group_admins(bot: "Bot", event: "Event") -> bool:
-    return isinstance(event, MessageEvent) and \
+    return isinstance(event, GroupMessage) and \
         event.sender.permission in \
         (UserPermission.ADMINISTRATOR, UserPermission.OWNER)
 
 
 async def _group_owner(bot: "Bot", event: "Event") -> bool:
-    return isinstance(event, MessageEvent) and \
+    return isinstance(event, GroupMessage) and \
         event.sender.permission == UserPermission.OWNER
 
 
 async def _group_owner_superuser(bot: "Bot", event: "Event") -> bool:
-    return isinstance(event, MessageEvent) and \
+    return isinstance(event, GroupMessage) and \
         (event.sender.permission == UserPermission.OWNER or
             event.get_user_id() in bot.config.superusers)
 
