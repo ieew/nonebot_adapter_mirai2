@@ -510,7 +510,7 @@ class Bot(BaseBot):
         """
         ...
 
-    async def set_essence(self, *, target: int):
+    async def set_essence(self, *, target: int, message_id: int):
         """
         :说明:
 
@@ -518,7 +518,8 @@ class Bot(BaseBot):
 
         :参数:
 
-            * ``target: int`` 消息 id
+            * ``target: int`` 群号
+            * ``message_id: int`` 消息号
         """
         ...
 

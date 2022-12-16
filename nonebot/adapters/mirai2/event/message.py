@@ -8,6 +8,7 @@ from ..message import MessageChain
 from .base import (
     Event,
     GroupChatInfo,
+    GroupInfo,
     OtherChatInfo,
     PrivateChatInfo,
     StrangerChatInfo
@@ -63,11 +64,30 @@ class GroupMessage(MessageEvent):
 
     @overrides(MessageEvent)
     def get_session_id(self) -> str:
-        return f'group_{self.sender.group.id}_' + self.get_user_id()
+        return f'group_{self.sender.group.id}_{self.sender.id}'
 
     @overrides(MessageEvent)
     def get_user_id(self) -> str:
         return str(self.sender.id)
+
+    @overrides(MessageEvent)
+    def is_tome(self) -> bool:
+        return self.to_me
+
+
+class GroupSyncMessage(MessageEvent):
+    """同步群消息事件"""
+    sender: GroupInfo = Field(alias="subject")
+    to_me: bool = False
+    self_id: int
+
+    @overrides(MessageEvent)
+    def get_session_id(self) -> str:
+        return f'groupSync_{self.sender.id}_{self.self_id}'
+
+    @overrides(MessageEvent)
+    def get_user_id(self) -> str:
+        return str(self.self_id)
 
     @overrides(MessageEvent)
     def is_tome(self) -> bool:
@@ -84,7 +104,24 @@ class FriendMessage(MessageEvent):
 
     @overrides(MessageEvent)
     def get_session_id(self) -> str:
-        return 'friend_' + self.get_user_id()
+        return f'friend_{self.sender.id}'
+
+    @overrides(MessageEvent)
+    def is_tome(self) -> bool:
+        return True
+
+
+class FriendSyncMessage(MessageEvent):
+    """同步好友消息事件"""
+    sender: PrivateChatInfo = Field(alias="subject")
+
+    @overrides(MessageEvent)
+    def get_user_id(self) -> str:
+        return str(self.sender.id)
+
+    @overrides(MessageEvent)
+    def get_session_id(self) -> str:
+        return f'friendSync_{self.sender.id}'
 
     @overrides(MessageEvent)
     def is_tome(self) -> bool:
@@ -101,7 +138,24 @@ class TempMessage(MessageEvent):
 
     @overrides(MessageEvent)
     def get_session_id(self) -> str:
-        return f'temp_{self.sender.group.id}_' + self.get_user_id()
+        return f'temp_{self.sender.group.id}_{self.sender.id}'
+
+    @overrides(MessageEvent)
+    def is_tome(self) -> bool:
+        return True
+
+
+class TempSyncMessage(MessageEvent):
+    """同步临时会话消息事件"""
+    sender: GroupChatInfo = Field(alias="subject")
+
+    @overrides(MessageEvent)
+    def get_user_id(self) -> str:
+        return str(self.sender.id)
+
+    @overrides(MessageEvent)
+    def get_session_id(self) -> str:
+        return f'tempSync_{self.sender.group.id}_{self.sender.id}'
 
     @overrides(MessageEvent)
     def is_tome(self) -> bool:
@@ -118,7 +172,21 @@ class StrangerMessage(MessageEvent):
 
     @overrides(MessageEvent)
     def get_session_id(self) -> str:
-        return 'stranger_' + self.get_user_id()
+        return f'stranger_{self.sender.id}'
+
+
+class StrangerSyncMessage(MessageEvent):
+    """同步陌生人消息事件"""
+    subject: StrangerChatInfo = Field(alias="subject")
+    self_id: int
+
+    @overrides(MessageEvent)
+    def get_user_id(self) -> str:
+        return str(self.self_id)
+
+    @overrides(MessageEvent)
+    def get_session_id(self) -> str:
+        return f'strangerSync_{self.self_id}'
 
 
 class OtherClientMessage(MessageEvent):
@@ -131,4 +199,4 @@ class OtherClientMessage(MessageEvent):
 
     @overrides(MessageEvent)
     def get_session_id(self) -> str:
-        return 'other_' + self.get_user_id()
+        return f'other_{self.sender.id}'
