@@ -39,7 +39,7 @@ class Adapter(BaseAdapter):
     @classmethod
     @overrides(BaseAdapter)
     def get_name(cls) -> str:
-        return 'mirai V2'
+        return 'mirai2'
 
     def setup(self) -> None:
 
