@@ -13,14 +13,16 @@ class Config(BaseModel):
       - ``mirai_host``: mirai-api-http 的地址
       - ``mirai_port``: mirai-api-http 的端口
       - ``mirai_qq``: mirai-api-http qq 列表
+      - ``mirai_reverse``: 反向 ws 模式
     """
 
     verify_key: str = Field(
-        ..., alias="mirai_verify_key"
+        None, alias="mirai_verify_key"
     )
-    mirai_host: str
-    mirai_port: str
-    mirai_qq: List[int]
+    mirai_host: str = None
+    mirai_port: str = None
+    mirai_qq: List[int] = None
+    mirai_reverse: bool = False
 
     class Config:
         extra = Extra.ignore
