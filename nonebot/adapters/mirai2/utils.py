@@ -34,10 +34,15 @@ def process_quote(bot: "Bot", event: Union[MessageEvent, GroupMessage]) -> Messa
 
 
 def process_at(bot: "Bot", event: GroupMessage) -> GroupMessage:
+    c = 0
     for msg in event.message_chain:
         if (msg.type == MessageType.AT) and (msg.data.get('target', '') == event.self_id):
             event.to_me = True
+            event.message_chain.pop(c)
             break
+        c += 1
+    if not event.message_chain:
+        event.message_chain.append(MessageSegment.plain(""))
     return event
 
 
