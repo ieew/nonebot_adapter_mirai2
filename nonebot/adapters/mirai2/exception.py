@@ -7,8 +7,8 @@ from nonebot.exception import NetworkError as BaseNetworkError
 
 class MiraiAdapterException(AdapterException):
 
-    def __init__(self):
-        super().__init__('mirai')
+    def __init__(self, *args):
+        super().__init__('mirai', *args)
 
 
 class ActionFailed(BaseActionFailed, MiraiAdapterException):
