@@ -17,6 +17,14 @@ if TYPE_CHECKING:
     from .bot import Bot
 
 
+def snake_to_camel(name: str):
+            for i in ['anno', 'resp']:
+                if re.match(i, name):
+                    return name
+            first, *rest = name.split('_')
+            return ''.join([first.lower(), *(r.title() for r in rest)])
+
+
 def process_source(bot: "Bot", event: MessageEvent) -> MessageEvent:
     source = event.message_chain.extract_first(MessageType.SOURCE)
     if source is not None:
@@ -34,10 +42,15 @@ def process_quote(bot: "Bot", event: Union[MessageEvent, GroupMessage]) -> Messa
 
 
 def process_at(bot: "Bot", event: GroupMessage) -> GroupMessage:
+    c = 0
     for msg in event.message_chain:
         if (msg.type == MessageType.AT) and (msg.data.get('target', '') == event.self_id):
             event.to_me = True
+            event.message_chain.pop(c)
             break
+        c += 1
+    if not event.message_chain:
+        event.message_chain.append(MessageSegment.plain(""))
     return event
 
 
