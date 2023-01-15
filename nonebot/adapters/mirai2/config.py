@@ -21,7 +21,7 @@ class Config(BaseModel):
         None, alias="mirai_verify_key"
     )
     mirai_host: Optional[str] = None
-    mirai_port: Optional[str] = None
+    mirai_port: Optional[int] = None
     mirai_qq: Optional[List[str]] = None
     mirai_Forward: Optional[bool] = True
     mirai_access_token: Optional[str] = None
