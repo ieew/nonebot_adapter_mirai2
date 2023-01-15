@@ -17,6 +17,14 @@ if TYPE_CHECKING:
     from .bot import Bot
 
 
+def snake_to_camel(name: str):
+            for i in ['anno', 'resp']:
+                if re.match(i, name):
+                    return name
+            first, *rest = name.split('_')
+            return ''.join([first.lower(), *(r.title() for r in rest)])
+
+
 def process_source(bot: "Bot", event: MessageEvent) -> MessageEvent:
     source = event.message_chain.extract_first(MessageType.SOURCE)
     if source is not None:
