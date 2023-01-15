@@ -330,7 +330,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
         return cls(type=MessageType.MUSIC_SHARE, kind=kind, title=title, summary=summary, jumpUrl=jump_url, pictureUrl=picture_url, musicUrl=music_url, brief=brief)
 
     @classmethod
-    def forward(cls, node_list: str, senderld: int, time: int, sender_name: str, message_chain: "MessageChain", messageid: int):
+    def forward(cls, node_list: dict, senderld: int, time: int, sender_name: str, message_chain: "MessageChain", messageid: int):
         """
         :说明:
 
@@ -338,7 +338,7 @@ class MessageSegment(BaseMessageSegment["MessageChain"]):
 
         :参数:
 
-          * ``node_list: str``: 节点列表
+          * ``node_list: dict``: 节点列表
           * ``senderld: int``: 发送者的ld
           * ``time: int``: 时间戳
           * ``sender_name: str``: 发送者的名字
