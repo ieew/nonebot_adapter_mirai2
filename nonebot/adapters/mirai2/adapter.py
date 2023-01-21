@@ -48,7 +48,7 @@ class Adapter(BaseAdapter):
                 )
             )
 
-        if isinstance(self.driver, ForwardDriver) and self.mirai_config.mirai_Forward:
+        if isinstance(self.driver, ForwardDriver) and self.mirai_config.mirai_forward:
             if not all([
                 isinstance(self.mirai_config.verify_key, str),
                 isinstance(self.mirai_config.mirai_host, str),

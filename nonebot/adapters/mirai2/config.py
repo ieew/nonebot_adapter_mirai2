@@ -23,7 +23,7 @@ class Config(BaseModel):
     mirai_host: Optional[str] = None
     mirai_port: Optional[int] = None
     mirai_qq: Optional[List[str]] = None
-    mirai_Forward: Optional[bool] = True
+    mirai_forward: Optional[bool] = True
     mirai_access_token: Optional[str] = None
 
     class Config:
