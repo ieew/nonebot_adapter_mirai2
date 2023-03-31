@@ -99,8 +99,8 @@ class Bot(BaseBot):
             * ``target: int`` 群 id
         """
         ...
-
-    async def bot_pro_file(self):
+        
+    async def bot_profile(self):
         """
         :说明:
 
@@ -111,8 +111,8 @@ class Bot(BaseBot):
             * 无
         """
         ...
-
-    async def friend_pro_file(self, *, target: int):
+        
+    async def friend_profile(self, *, target: int):
         """
         :说明:
 
@@ -121,6 +121,18 @@ class Bot(BaseBot):
         :参数:
 
             * ``target: int`` 好友 id
+        """
+        ...
+        
+    async def user_profile(self, *, target: int):
+        """
+        :说明:
+
+            获取QQ用户 target 的资料
+
+        :参数:
+
+            * ``target: int`` 用户 id
         """
         ...
 
